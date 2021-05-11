@@ -17,11 +17,11 @@ class CreateHistoricsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->integer('total_actors');
-            $table->float('total_funds');
-            $table->integer('total_jobs_available');
-            $table->integer('total_women_number');
-            $table->float('total_revenues');
+            $table->integer('total_actors')->nullable();
+            $table->float('total_funds')->nullable();
+            $table->integer('total_jobs_available')->nullable();
+            $table->integer('total_women_number')->nullable();
+            $table->float('total_revenues')->nullable();
         });
     }
 

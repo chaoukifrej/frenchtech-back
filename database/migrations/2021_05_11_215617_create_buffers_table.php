@@ -17,7 +17,7 @@ class CreateBuffersTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->bigInteger('actor_id')->unsigned;
+            $table->unsignedBigInteger('actor_id');
             $table->foreign('actor_id')
                 ->references('id')
                 ->on('actors');
@@ -28,7 +28,7 @@ class CreateBuffersTable extends Migration
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
             $table->string('email', 64)->unique();
-            $table->integer('phone', 20);
+            $table->integer('phone');
             $table->string('category', 64);
             $table->string('associations', 64)->nullable();
             $table->text('description');
@@ -37,11 +37,11 @@ class CreateBuffersTable extends Migration
             $table->string('twitter')->nullable();
             $table->string('activity_area', 64);
             $table->float('funds');
-            $table->integer('employees_number');
-            $table->integer('jobs_available_number');
-            $table->integer('women_number');
+            $table->smallInteger('employees_number');
+            $table->tinyInteger('jobs_available_number');
+            $table->smallInteger('women_number');
             $table->float('revenues');
-            $table->string('magic_link');
+            $table->string('magic_link')->nullable();
         });
     }
 
