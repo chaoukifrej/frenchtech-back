@@ -24,4 +24,4 @@ Route::post('post/register', 'auth\RegisterController@store')->name('register.st
 
 
 //GET ALL ACTORS
-Route::get('get/actors', 'ActorController@create')->name('actor.create');
+Route::get('get/actors', 'ActorController@index')->name('actor.index');
