@@ -26,6 +26,34 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="logo" class="col-md-4 col-form-label text-md-right">{{ __('Logo de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="logo" type="string" class="form-control @error('logo') is-invalid @enderror" name="logo" value="{{ old('logo') }}" required autocomplete="logo">
+
+                                @error('logo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="adress" class="col-md-4 col-form-label text-md-right">{{ __('Adresse de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="adress" type="string" class="form-control @error('adress') is-invalid @enderror" name="adress" value="{{ old('adress') }}" required autocomplete="adress">
+
+                                @error('adress')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
@@ -40,9 +68,151 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Téléphone de la société') }}</label>
 
                             <div class="col-md-6">
+                                <input id="phone" type="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone">
+
+                                @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Catégorie de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="category" type="category" class="form-control @error('category') is-invalid @enderror" name="category" value="{{ old('category') }}" required autocomplete="category">
+
+                                @error('category')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="associations" class="col-md-4 col-form-label text-md-right">{{ __('associations de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="associations" type="associations" class="form-control @error('associations') is-invalid @enderror" name="associations" value="{{ old('associations') }}" required autocomplete="associations">
+
+                                @error('associations')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('description de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="description" type="description" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" required autocomplete="description">
+
+                                @error('description')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="activity_area" class="col-md-4 col-form-label text-md-right">{{ __('activity_area de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="activity_area" type="activity_area" class="form-control @error('activity_area') is-invalid @enderror" name="activity_area" value="{{ old('activity_area') }}" required autocomplete="activity_area">
+
+                                @error('activity_area')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="funds" class="col-md-4 col-form-label text-md-right">{{ __('funds de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="funds" class="form-control @error('funds') is-invalid @enderror" name="funds" value="{{ old('funds') }}" required autocomplete="funds">
+
+                                @error('funds')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="employees_number" class="col-md-4 col-form-label text-md-right">{{ __('employees_number de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="employees_number" class="form-control @error('employees_number') is-invalid @enderror" name="employees_number" value="{{ old('employees_number') }}" required autocomplete="employees_number">
+
+                                @error('employees_numberunds')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="jobs_available_number" class="col-md-4 col-form-label text-md-right">{{ __('jobs_available_number de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="jobs_available_number" class="form-control @error('jobs_available_number') is-invalid @enderror" name="jobs_available_number" value="{{ old('jobs_available_number') }}" required autocomplete="jobs_available_number">
+
+                                @error('jobs_available_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="women_number" class="col-md-4 col-form-label text-md-right">{{ __('women_number de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="women_number" class="form-control @error('women_number') is-invalid @enderror" name="women_number" value="{{ old('women_number') }}" required autocomplete="women_number">
+
+                                @error('women_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="revenues" class="col-md-4 col-form-label text-md-right">{{ __('revenues de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="revenues" class="form-control @error('revenues') is-invalid @enderror" name="revenues" value="{{ old('revenues') }}" required autocomplete="revenues">
+
+                                @error('revenues')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+{{--
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label> --}}
+
+                            {{-- <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
@@ -59,7 +229,7 @@
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
