@@ -20,8 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //route::get('/test', 'HomeController@test');
 
 //REGISTER
-Route::post('post/register', 'auth\RegisterController@store')->name('register.store');
+Route::post('POST/register', 'auth\RegisterController@store')->name('register.store');
 
 
 //GET ALL ACTORS
-Route::get('get/actors', 'ActorController@index')->name('actor.index');
+Route::get('GET/actors', 'ActorController@index')->name('actor.index');

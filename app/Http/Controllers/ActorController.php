@@ -16,16 +16,7 @@ class ActorController extends Controller
     {
         $actors = Actor::all();
 
-        return response()->json(['actors' => $actors], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+        return response()->json(['body' => $actors], 200);
     }
 
     /**
