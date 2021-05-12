@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Buffer;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -50,9 +51,23 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'actor_id' => ['int'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'logo' => ['string'],
+            'adress' => ['required', 'string'],
+            'longitude' => ['string'],
+            'latitude' => ['string'],
+            'phone' => ['required', 'string'],
+            'category' => ['required', 'string'],
+            'associations' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'activity_area' => ['required', 'string'],
+            'funds' => ['string'],
+            'employees_number' => ['required', 'string'],
+            'jobs_available_number' => ['required', 'string'],
+            'women_number' => ['required', 'string'],
+            'revenues' => ['required', 'string'],
         ]);
     }
 
@@ -60,14 +75,30 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Buffer
      */
-    protected function create(array $data)
+    protected function store(array $data)
     {
-        return User::create([
+        return Buffer::create([
+            'actor_id' => 2,
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'logo' => $data['logo'],
+            'adress' => $data['adress'],
+            'longitude' => $data['longitude'],
+            'latitude' => $data['latitude'],
+            'phone' => $data['phone'],
+            'category' => $data['category'],
+            'associations' => $data['associations'],
+            'description' => $data['description'],
+            'activity_area' => $data['activity_area'],
+            'funds' => $data['funds'],
+            'employees_number' => $data['employees_number'],
+            'jobs_available_number' => $data['jobs_available_number'],
+            'women_number' => $data['women_number'],
+            'revenues' => $data['revenues'],
+
+
         ]);
     }
 }
