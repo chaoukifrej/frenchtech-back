@@ -24,7 +24,9 @@ class ActorController extends Controller
      */
     public function create()
     {
-        //
+        $actors = Actor::all();
+
+        return response()->json(['actors' => $actors], 200);
     }
 
     /**
