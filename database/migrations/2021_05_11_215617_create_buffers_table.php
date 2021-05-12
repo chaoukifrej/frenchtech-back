@@ -25,10 +25,12 @@ class CreateBuffersTable extends Migration
             $table->string('logo');
             $table->string('name', 64);
             $table->string('adress', 64);
+            $table->mediumInteger('postal_code');
+            $table->string('city', 64);
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
             $table->string('email', 64)->unique();
-            $table->integer('phone');
+            $table->string('phone', 20);
             $table->string('category', 64);
             $table->string('associations', 64)->nullable();
             $table->text('description');

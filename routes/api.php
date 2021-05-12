@@ -17,4 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+<<<<<<< HEAD
+route::get('/test', 'HomeController@test');
+=======
 Route::post('register', 'auth\RegisterController@store')->name('register.store');
+>>>>>>> US1-Adherent-Inscription
