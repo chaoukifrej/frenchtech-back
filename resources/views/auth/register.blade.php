@@ -208,6 +208,34 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="longitude" class="col-md-4 col-form-label text-md-right">{{ __('longitude de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="longitude" class="form-control @error('longitude') is-invalid @enderror" name="longitude" value="{{ old('longitude') }}" required autocomplete="longitude">
+
+                                @error('longitude')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="latitude" class="col-md-4 col-form-label text-md-right">{{ __('latitude de la société') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="funds" type="latitude" class="form-control @error('latitude') is-invalid @enderror" name="latitude" value="{{ old('latitude') }}" required autocomplete="latitude">
+
+                                @error('latitude')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
 {{--
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label> --}}
