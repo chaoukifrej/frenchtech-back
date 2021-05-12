@@ -17,7 +17,7 @@ class CreateBuffersTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->unsignedBigInteger('actor_id');
+            $table->unsignedBigInteger('actor_id')->nullable();
             $table->foreign('actor_id')
                 ->references('id')
                 ->on('actors');
