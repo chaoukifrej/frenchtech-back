@@ -25,7 +25,7 @@ class Actor extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'longitude', 'latitude',
+        'funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues', 'magic_link'
     ];
 
     /**
