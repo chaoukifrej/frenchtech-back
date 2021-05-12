@@ -51,7 +51,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'actor_id' => ['string'],
+            'actor_id' => ['int'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'logo' => ['string'],
@@ -80,7 +80,7 @@ class RegisterController extends Controller
     protected function store(array $data)
     {
         return Buffer::create([
-            'actor_id' => 1,
+            'actor_id' => 2,
             'name' => $data['name'],
             'email' => $data['email'],
             'logo' => $data['logo'],
@@ -97,6 +97,8 @@ class RegisterController extends Controller
             'jobs_available_number' => $data['jobs_available_number'],
             'women_number' => $data['women_number'],
             'revenues' => $data['revenues'],
+
+
         ]);
     }
 }
