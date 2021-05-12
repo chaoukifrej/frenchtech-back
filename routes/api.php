@@ -25,3 +25,7 @@ Route::post('POST/register', 'auth\RegisterController@store')->name('register.st
 
 //GET ALL ACTORS
 Route::get('GET/actors', 'ActorController@index')->name('actor.index');
+
+
+//GET MÉTRIC
+Route::get('GET/metric', 'ActorController@show')->name('actor.show');
