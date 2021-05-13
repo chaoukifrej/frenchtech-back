@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "grosv/laravel-passwordless-login": "^1.6",
+        "guzzlehttp/guzzle": "^7.3",
         "laravel/framework": "^6.20",
         "laravel/tinker": "^2.5",
         "laravel/ui": "1.*",
