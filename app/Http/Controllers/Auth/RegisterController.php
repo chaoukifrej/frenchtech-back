@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,27 +49,32 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(Request $request)
     {
-        return Validator::make($data, [
-            'actor_id' => ['int'],
+        return Validator::make($request, [
             'logo' => ['required', 'string'],
             'name' => ['required', 'string', 'max:64'],
-            'adress' => ['required', 'string'],
-            'postal_code' => ['required', 'string'],
+            'adress' => ['required', 'string', 'max:64'],
+            'postal_code' => ['required', 'integer', 'max:5'],
+            'city' => ['required', 'string', 'max:64'],
+            'longitude' => ['numeric', 'nullable'],
+            'latitude' => ['numeric', 'nullable'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
-            'longitude' => ['string'],
-            'latitude' => ['string'],
-            'phone' => ['required', 'string'],
-            'category' => ['required', 'string'],
-            'associations' => ['required', 'string'],
+            'phone' => ['required', 'integer', 'max:20'],
+            'category' => ['required', 'string', 'max:64'],
+            'associations' => ['nullable', 'string', 'max:64'],
             'description' => ['required', 'string'],
-            'activity_area' => ['required', 'string'],
-            'funds' => ['string'],
-            'employees_number' => ['required', 'string'],
-            'jobs_available_number' => ['required', 'string'],
-            'women_number' => ['required', 'string'],
-            'revenues' => ['required', 'string'],
+
+            'facebook' => ['nullable', 'string'],
+            'twitter' => ['nullable', 'string'],
+            'linkedin' => ['nullable', 'string'],
+
+            'activity_area' => ['required', 'string', 'max:64'],
+            'funds' => ['required', 'numeric'],
+            'employees_number' => ['required', 'integer'],
+            'jobs_available_number' => ['required', 'integer'],
+            'women_number' => ['required', 'integer'],
+            'revenues' => ['required', 'numeric']
         ]);
     }
 
@@ -79,28 +85,33 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Buffer
      */
-    protected function store(array $data)
+    protected function store(Request $request)
     {
-        return Buffer::create([
-            'actor_id' => 2,
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'logo' => $data['logo'],
-            'adress' => $data['adress'],
-            'longitude' => $data['longitude'],
-            'latitude' => $data['latitude'],
-            'phone' => $data['phone'],
-            'category' => $data['category'],
-            'associations' => $data['associations'],
-            'description' => $data['description'],
-            'activity_area' => $data['activity_area'],
-            'funds' => $data['funds'],
-            'employees_number' => $data['employees_number'],
-            'jobs_available_number' => $data['jobs_available_number'],
-            'women_number' => $data['women_number'],
-            'revenues' => $data['revenues'],
-
-
-        ]);
+        try {
+            Buffer::create([
+                'actor_id' => null,
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'logo' => $request['logo'],
+                'adress' => $request['adress'],
+                'postal_code' => $request['postal_code'],
+                'city' => $request['city'],
+                'longitude' => $request['longitude'],
+                'latitude' => $request['latitude'],
+                'phone' => $request['phone'],
+                'category' => $request['category'],
+                'associations' => $request['associations'],
+                'description' => $request['description'],
+                'activity_area' => $request['activity_area'],
+                'funds' => $request['funds'],
+                'employees_number' => $request['employees_number'],
+                'jobs_available_number' => $request['jobs_available_number'],
+                'women_number' => $request['women_number'],
+                'revenues' => $request['revenues'],
+            ]);
+            return response()->json(["body" => "success"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["body" => $th], 401);
+        }
     }
 }
