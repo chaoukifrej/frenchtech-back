@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuluminate\Support\Str;
 
 class AdminSeeder extends Seeder
 {
@@ -15,7 +16,8 @@ class AdminSeeder extends Seeder
         DB::table('admins')->insert([
             'firstname' => 'Farook',
             'lastname' => 'Farook',
-            'email' => 'ff@gmail.com'
+            'email' => 'ff@gmail.com',
+            'magic_link' => Str::random(10)
         ]);
     }
 }

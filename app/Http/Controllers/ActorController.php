@@ -14,17 +14,9 @@ class ActorController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $actors = Actor::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
     /**
@@ -35,7 +27,7 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // in RegisterController
     }
 
     /**
@@ -46,7 +38,22 @@ class ActorController extends Controller
      */
     public function show(Actor $actor)
     {
-        //
+        //$startup_number = Actor::count('')
+        $start_up_total = Actor::where('category', 'like', 'startUp')->get()->count();
+        $funds_total = (int) Actor::sum('funds');
+        $employees_number_total = (int) Actor::sum('employees_number');
+        $jobs_number_total = (int) Actor::sum('jobs_available_number');
+        $women_number_total = (int) Actor::sum('women_number');
+        $revenues_total = (int) Actor::sum('revenues');
+
+        return response()->json(['body' => [
+            'start_up_total' => $start_up_total,
+            'funds_total' => $funds_total,
+            'employees_number_total' => $employees_number_total,
+            'jobs_number_total' => $jobs_number_total,
+            'women_number_total' => $women_number_total,
+            'revenues_total' => $revenues_total
+        ]], 200);
     }
 
     /**
