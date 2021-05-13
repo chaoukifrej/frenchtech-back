@@ -17,7 +17,7 @@ class CreateActorsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->string('logo');
+            $table->longText('logo');
             $table->string('name', 64);
             $table->string('adress', 64);
             $table->mediumInteger('postal_code');
