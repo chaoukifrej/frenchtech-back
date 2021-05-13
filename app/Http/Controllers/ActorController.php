@@ -89,4 +89,17 @@ class ActorController extends Controller
     {
         //
     }
+
+    /**
+     * Get the specified resource from storage.
+     *
+     * @param  \App\Actor  $actor
+     * @return \Illuminate\Http\Response
+     */
+    public function getConnectedActor(Actor $actor)
+    {
+        $actor = Actor::where('id', \Auth::user()->id)->first();
+
+        return response()->json(['body' => ['actor' => $actor]], 200);
+    }
 }

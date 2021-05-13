@@ -18,12 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-
-
 //!ROUTES EN GET
 Route::prefix('GET')->group(function () {
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
+
+    //GET ACTOR Auth
+    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor');
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
