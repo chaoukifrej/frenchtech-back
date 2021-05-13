@@ -17,15 +17,31 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//route::get('/test', 'HomeController@test');
-
-//REGISTER
-Route::post('POST/register', 'auth\RegisterController@store')->name('register.store');
 
 
-//GET ALL ACTORS
-Route::get('GET/actors', 'ActorController@index')->name('actor.index');
 
+//!ROUTES EN GET
+Route::prefix('GET')->group(function () {
+    //GET ALL ACTORS
+    Route::get('actors', 'ActorController@index')->name('actor.index');
 
-//GET MÉTRIC
-Route::get('GET/metric', 'ActorController@show')->name('actor.show');
+    //GET MÉTRIC
+    Route::get('metric', 'ActorController@show')->name('actor.show');
+});
+
+//!ROUTES EN POST
+Route::prefix('POST')->group(function () {
+    //REGISTER
+    Route::post('register', 'auth\RegisterController@store')->name('register.store');
+});
+
+//!ROUTES ADMIN
+Route::prefix('admin')->group(function () {
+    //?ROUTES EN GET
+    Route::prefix('GET')->group(function () {
+    });
+
+    //?ROUTES EN POST
+    Route::prefix('POST')->group(function () {
+    });
+});
