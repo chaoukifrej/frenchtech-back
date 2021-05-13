@@ -51,24 +51,29 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'actor_id' => ['int'],
             'logo' => ['required', 'string'],
             'name' => ['required', 'string', 'max:64'],
-            'adress' => ['required', 'string'],
-            'postal_code' => ['required', 'string'],
+            'adress' => ['required', 'string', 'max:64'],
+            'postal_code' => ['required', 'integer', 'max:5'],
+            'city' => ['required', 'string', 'max:64'],
+            'longitude' => ['numeric', 'nullable'],
+            'latitude' => ['numeric', 'nullable'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
-            'longitude' => ['string'],
-            'latitude' => ['string'],
-            'phone' => ['required', 'string'],
-            'category' => ['required', 'string'],
-            'associations' => ['required', 'string'],
+            'phone' => ['required', 'integer', 'max:20'],
+            'category' => ['required', 'string', 'max:64'],
+            'associations' => ['nullable', 'string', 'max:64'],
             'description' => ['required', 'string'],
-            'activity_area' => ['required', 'string'],
-            'funds' => ['string'],
-            'employees_number' => ['required', 'string'],
-            'jobs_available_number' => ['required', 'string'],
-            'women_number' => ['required', 'string'],
-            'revenues' => ['required', 'string'],
+
+            'facebook' => ['nullable', 'string'],
+            'twitter' => ['nullable', 'string'],
+            'linkedin' => ['nullable', 'string'],
+
+            'activity_area' => ['required', 'string', 'max:64'],
+            'funds' => ['required', 'numeric'],
+            'employees_number' => ['required', 'integer'],
+            'jobs_available_number' => ['required', 'integer'],
+            'women_number' => ['required', 'integer'],
+            'revenues' => ['required', 'numeric'],
         ]);
     }
 
@@ -81,7 +86,7 @@ class RegisterController extends Controller
     protected function store(array $data)
     {
         return Buffer::create([
-            'actor_id' => 2,
+            'actor_id' => null,
             'name' => $data['name'],
             'email' => $data['email'],
             'logo' => $data['logo'],
@@ -98,8 +103,6 @@ class RegisterController extends Controller
             'jobs_available_number' => $data['jobs_available_number'],
             'women_number' => $data['women_number'],
             'revenues' => $data['revenues'],
-
-
         ]);
     }
 }
