@@ -27,7 +27,7 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // in RegisterController
     }
 
     /**
