@@ -16,7 +16,7 @@ class ActorController extends Controller
     {
         $actors = Actor::all();
 
-        return response()->json(['body' => $actors], 200);
+        return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
     /**
