@@ -7,6 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Admin::class, function (Faker $faker) {
     return [
-        //
+        'firstname' => 'test',
+        'lastname' => 'test',
+        'email' => 'test@test.fr',
     ];
 });
