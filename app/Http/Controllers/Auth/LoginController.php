@@ -51,7 +51,7 @@ class LoginController extends Controller
 
         try {
             $generator = new LoginUrl($user);
-            $generator->setRedirectUrl('/somewhere/else'); // Override the default url to redirect to after login
+            $generator->setRedirectUrl('/'); // Override the default url to redirect to after login
             $data['url'] = $generator->generate();
             $data['user'] = $user;
 
