@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +23,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //REGISTER
 Route::post('POST/register', 'auth\RegisterController@store')->name('register.store');
 
+//LOGIN MAGIC LINK
+Route::post('POST/login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
 //GET ALL ACTORS
 Route::get('GET/actors', 'ActorController@index')->name('actor.index');
-
 
 //GET MÉTRIC
 Route::get('GET/metric', 'ActorController@show')->name('actor.show');
