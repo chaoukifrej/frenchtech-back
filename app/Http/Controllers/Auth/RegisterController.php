@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'longitude' => ['numeric', 'nullable'],
             'latitude' => ['numeric', 'nullable'],
             'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
-            'phone' => ['required', 'integer', 'max:20'],
+            'phone' => ['required', 'string', 'max:20'],
             'category' => ['required', 'string', 'max:64'],
             'associations' => ['nullable', 'string', 'max:64'],
             'description' => ['required', 'string'],
@@ -78,6 +78,7 @@ class RegisterController extends Controller
             'revenues' => ['required', 'numeric']
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use App\Actor;
 use Grosv\LaravelPasswordlessLogin\LoginUrl;
@@ -48,17 +49,17 @@ class LoginController extends Controller
         $email = $request->get('email');
         $user = Actor::where("email", "=", $email)->first();
 
-        if (empty($user)) {
-            return back();
+        try {
+            $generator = new LoginUrl($user);
+            $generator->setRedirectUrl('/somewhere/else'); // Override the default url to redirect to after login
+            $data['url'] = $generator->generate();
+            $data['user'] = $user;
+
+            Mail::to($user->email)->send(new ActorLoginMail($data));
+
+            return response()->json(["body" => "success"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["body" => $th], 401);
         }
-
-        $generator = new LoginUrl($user);
-        $generator->setRedirectUrl('/somewhere/else'); // Override the default url to redirect to after login
-        $data['url'] = $generator->generate();
-        $data['user'] = $user;
-
-        Mail::to($user->email)->send(new ActorLoginMail($data));
-
-        return back();
     }
 }

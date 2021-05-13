@@ -17,6 +17,7 @@ class CreateAdminsTable extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email');
+            $table->string('magic_link')->nullable();
             $table->timestamps();
         });
     }

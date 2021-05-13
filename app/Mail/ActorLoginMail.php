@@ -30,9 +30,9 @@ class ActorLoginMail extends Mailable
      */
     public function build()
     {
-        return $this->form(config('mail.from.address'))
+        return $this->from(config('mail.from.address'))
             ->subject('Actor Login Link')
-            ->markdown('auth.email')
+            ->markdown('auth.mail')
             ->with($this->data);
     }
 }
