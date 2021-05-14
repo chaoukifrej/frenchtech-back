@@ -16,6 +16,11 @@ class CreateActorsTable extends Migration
         Schema::create('actors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->rememberToken();
+            $table->string('api_token', 80)
+                ->unique()
+                ->nullable()
+                ->default(null);
 
             $table->longText('logo');
             $table->string('name', 64);
@@ -32,6 +37,7 @@ class CreateActorsTable extends Migration
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('twitter')->nullable();
+            $table->string('website')->nullable();
             $table->string('activity_area', 64);
             $table->float('funds');
             $table->smallInteger('employees_number');

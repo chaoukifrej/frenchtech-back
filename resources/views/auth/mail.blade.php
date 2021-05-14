@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         .email {
@@ -10,14 +11,17 @@
             background: #fff;
             padding: 30px;
         }
+
         .text-blue-color {
             color: #244062;
         }
+
         pre code {
             display: none;
             font-family: inherit;
             white-space: pre-wrap;
         }
+
         .email a {
             background: #274062;
             color: #FFF;
@@ -32,16 +36,18 @@
             margin-top: 10px;
             border: 0;
         }
+
     </style>
 </head>
+
 <body style="background-color: #edf2f7; margin: 50px auto;">
-<div class="email">
-    <div style="text-align: left;" class="text-blue-color">
-        <strong>Hi {{ $user->name }},</strong>
+    <div class="email">
+        <div style="text-align: left;" class="text-blue-color">
+            <strong>Hi {{ $user->name }},</strong>
+            <p>Vous avez 5 minutes pour vous connecter</p>
+        </div>
+        <a href="{{ ENV('APP_URL') . '/api/GET/login/' . $url . '/' . $user->id }}">Se connecter</a>
     </div>
-    @component('mail::button',['url' => $url])
-        Your Login Link
-    @endcomponent
-</div>
 </body>
+
 </html>

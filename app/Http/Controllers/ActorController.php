@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actor;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class ActorController extends Controller
 {
+
+    use AuthenticatesUsers;
+
     /**
      * Display a listing of the resource.
      *
@@ -88,5 +93,17 @@ class ActorController extends Controller
     public function destroy(Actor $actor)
     {
         //
+    }
+
+    /**
+     * Get the specified resource from storage.
+     *
+     * @param  \App\Actor  $actor
+     * @return \Illuminate\Http\Response
+     */
+    public function getConnectedActor()
+    {
+        $data = Actor::where('id', Auth::user()->id)->first();
+        return response()->json(['body' => ['actor' => $data]], 200);
     }
 }

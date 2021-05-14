@@ -16,6 +16,12 @@ class CreateBuffersTable extends Migration
         Schema::create('buffers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->rememberToken();
+            $table->string('api_token', 80)
+                ->unique()
+                ->nullable()
+                ->default(null);
+
 
             $table->unsignedBigInteger('actor_id')->nullable();
             $table->foreign('actor_id')
@@ -37,6 +43,7 @@ class CreateBuffersTable extends Migration
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('twitter')->nullable();
+            $table->string('website')->nullable();
             $table->string('activity_area', 64);
             $table->float('funds');
             $table->smallInteger('employees_number');
