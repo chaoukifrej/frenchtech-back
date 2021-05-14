@@ -16,7 +16,7 @@ class Actor extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'logo', 'adress', 'phone', 'category', 'associations', 'description', 'activity_area', 'funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues', 'actor_id'
+        'name', 'email', 'api_token', 'logo', 'adress', 'phone', 'category', 'associations', 'description', 'activity_area', 'funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues', 'actor_id'
     ];
 
     /**
@@ -25,7 +25,7 @@ class Actor extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues', 'magic_link'
+        'funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues', 'magic_link', 'api_token', 'remember_token'
     ];
 
     /**

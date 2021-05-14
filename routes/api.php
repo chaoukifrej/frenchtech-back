@@ -20,26 +20,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //!ROUTES EN GET
 Route::prefix('GET')->group(function () {
+    //GET CONFIRM LOGIN
+    Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
+
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
     //GET ACTOR Auth
-    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor')->middleware('auth');
+    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor')->middleware('auth:api');
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
-
-    //GET CONFIRM LOGIN
-    Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
 });
 
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
-    //REGISTER -> BUFFER
-    Route::post('register', 'Auth\RegisterController@store')->name('register.store');
-
     //LOGIN MAGIC LINK
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
+
+    //REGISTER -> BUFFER
+    Route::post('register', 'Auth\RegisterController@store')->name('register.store');
 });
 
 //!ROUTES ADMIN

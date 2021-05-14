@@ -17,7 +17,10 @@ class CreateActorsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->rememberToken();
-
+            $table->string('api_token', 80)
+                ->unique()
+                ->nullable()
+                ->default(null);
 
             $table->longText('logo');
             $table->string('name', 64);

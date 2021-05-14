@@ -15,6 +15,7 @@ $factory->define(Actor::class, function (Faker $faker) {
         'longitude' => $faker->randomFloat(6, 43, 43),
         'latitude' => $faker->randomFloat(6, 7, 7),
         'email' => $faker->unique()->safeEmail,
+        'api_token' => Str::random(80),
         'phone' => $faker->phoneNumber,
         'category' => $faker->word(),
         'associations' => $faker->word(),

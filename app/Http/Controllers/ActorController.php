@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actor;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Auth;
 
 class ActorController extends Controller
 {
@@ -101,10 +101,9 @@ class ActorController extends Controller
      * @param  \App\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function getConnectedActor(Actor $actor)
+    public function getConnectedActor()
     {
-        $actor = Actor::where('id', 2)->first();
-
-        return response()->json(['body' => ['actor' => $actor]], 200);
+        $data = Actor::where('id', Auth::user()->id)->first();
+        return response()->json(['body' => ['actor' => $data]], 200);
     }
 }

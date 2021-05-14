@@ -20,6 +20,10 @@ class CreateAdminsTable extends Migration
             $table->string('magic_link')->nullable();
             $table->timestamps();
             $table->rememberToken();
+            $table->string('api_token', 80)
+                ->unique()
+                ->nullable()
+                ->default(null);
         });
     }
 

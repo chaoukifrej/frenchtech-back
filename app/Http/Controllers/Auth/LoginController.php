@@ -74,9 +74,9 @@ class LoginController extends Controller
 
         if ($actor->updated_at > $timeNow) {
             if ($ml == $actor->magic_link) {
-                \Auth::login($actor, true);
-                //Auth::loginUsingId($actor->id);
-                return response()->json(["success" => \Auth::check(), "message" => "Connexion réussi", 'actor_id' => \Auth::user()->id], 200);
+                $actor->api_token = Str::random(80);
+                $actor->save();
+                return response()->json(["success" => "true", "message" => "Connexion réussi", 'token' => $actor->api_token], 200);
             } else {
                 return response()->json(["success" => "false", "message" => "le magicLink ne correspond pas"], 401);
             }
