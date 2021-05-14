@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ActorLoginMail;
 use Illuminate\Support\Carbon;
 
+
 class LoginController extends Controller
 {
     /*
@@ -74,7 +75,7 @@ class LoginController extends Controller
 
         if ($actor->updated_at > $timeNow) {
             if ($ml == $actor->magic_link) {
-                $actor->api_token = Str::random(80);
+                $actor->api_token = \Str::random(80);
                 $actor->save();
                 return response()->json(["success" => "true", "message" => "Connexion réussi", 'token' => $actor->api_token], 200);
             } else {
