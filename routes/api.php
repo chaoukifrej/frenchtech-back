@@ -36,17 +36,14 @@ Route::prefix('GET')->group(function () {
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
     //LOGIN MAGIC LINK
-<<<<<<< HEAD
     Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //POST MÉTRIC
     Route::post('historic', 'HistoricController@store')->name('historic.store');
-=======
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
->>>>>>> 8bc9e87054d47c079c6b23a2fa67876d05fdb4ff
 });
 
 //!ROUTES ADMIN
