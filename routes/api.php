@@ -24,7 +24,7 @@ Route::prefix('GET')->group(function () {
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
     //GET ACTOR Auth
-    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor');
+    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor')->middleware('auth');
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');

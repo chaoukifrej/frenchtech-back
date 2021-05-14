@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use App\Actor;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ActorLoginMail;
@@ -77,7 +76,7 @@ class LoginController extends Controller
             if ($ml == $actor->magic_link) {
                 \Auth::login($actor, true);
                 //Auth::loginUsingId($actor->id);
-                return response()->json(["success" => \Auth::check(), "message" => "Connexion réussi"], 401);
+                return response()->json(["success" => \Auth::check(), "message" => "Connexion réussi", 'actor_id' => \Auth::user()->id], 200);
             } else {
                 return response()->json(["success" => "false", "message" => "le magicLink ne correspond pas"], 401);
             }

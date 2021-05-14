@@ -22,6 +22,7 @@ $factory->define(Actor::class, function (Faker $faker) {
         'facebook' => $faker->word(),
         'linkedin' => $faker->word(),
         'twitter' => $faker->word(),
+        'website' => $faker->word(),
         'activity_area' => $faker->word(),
         'funds' => $faker->randomFloat(2, 1, 99),
         'employees_number' => $faker->randomNumber(3, false),

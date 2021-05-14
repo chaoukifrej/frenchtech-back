@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'facebook' => ['nullable', 'string'],
             'twitter' => ['nullable', 'string'],
             'linkedin' => ['nullable', 'string'],
+            'website' => ['nullable', 'string'],
 
             'activity_area' => ['required', 'string', 'max:64'],
             'funds' => ['required', 'numeric'],
@@ -103,6 +104,10 @@ class RegisterController extends Controller
                 'category' => $request['category'],
                 'associations' => $request['associations'],
                 'description' => $request['description'],
+                'facebook' => $request['facebook'],
+                'twitter' => $request['twitter'],
+                'linkedin' => $request['linkedin'],
+                'website' => $request['website'],
                 'activity_area' => $request['activity_area'],
                 'funds' => $request['funds'],
                 'employees_number' => $request['employees_number'],
