@@ -36,6 +36,9 @@ Route::prefix('POST')->group(function () {
 
     //LOGIN MAGIC LINK
     Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
+
+    //POST MÉTRIC
+    Route::post('historic', 'HistoricController@store')->name('historic.store');
 });
 
 //!ROUTES ADMIN
