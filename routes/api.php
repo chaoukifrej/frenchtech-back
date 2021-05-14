@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,24 +18,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-
-
 //!ROUTES EN GET
 Route::prefix('GET')->group(function () {
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
+    //GET ACTOR Auth
+    Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor');
+
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
+
+    //GET CONFIRM LOGIN
+    Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
 });
 
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
     //REGISTER -> BUFFER
-    Route::post('register', 'auth\RegisterController@store')->name('register.store');
+    Route::post('register', 'Auth\RegisterController@store')->name('register.store');
 
     //LOGIN MAGIC LINK
-    Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
+    Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 });
 
 //!ROUTES ADMIN

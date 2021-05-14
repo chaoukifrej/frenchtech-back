@@ -16,6 +16,8 @@ class CreateBuffersTable extends Migration
         Schema::create('buffers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->rememberToken();
+
 
             $table->unsignedBigInteger('actor_id')->nullable();
             $table->foreign('actor_id')
