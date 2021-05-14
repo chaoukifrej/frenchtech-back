@@ -34,6 +34,7 @@ class CreateActorsTable extends Migration
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('twitter')->nullable();
+            $table->string('website')->nullable();
             $table->string('activity_area', 64);
             $table->float('funds');
             $table->smallInteger('employees_number');

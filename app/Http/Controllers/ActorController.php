@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actor;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class ActorController extends Controller
 {
+
+    use AuthenticatesUsers;
+
     /**
      * Display a listing of the resource.
      *
@@ -98,7 +103,7 @@ class ActorController extends Controller
      */
     public function getConnectedActor(Actor $actor)
     {
-        $actor = Actor::where('id', \Auth::user()->id)->first();
+        $actor = Actor::where('id', 2)->first();
 
         return response()->json(['body' => ['actor' => $actor]], 200);
     }
