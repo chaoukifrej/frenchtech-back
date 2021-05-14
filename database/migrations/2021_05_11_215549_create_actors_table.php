@@ -16,6 +16,8 @@ class CreateActorsTable extends Migration
         Schema::create('actors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->rememberToken();
+
 
             $table->longText('logo');
             $table->string('name', 64);

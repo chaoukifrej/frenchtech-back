@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use App\Actor;
-use Grosv\LaravelPasswordlessLogin\LoginUrl;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ActorLoginMail;
+use Illuminate\Support\Carbon;
 
 class LoginController extends Controller
 {
@@ -47,19 +48,40 @@ class LoginController extends Controller
     {
 
         $email = $request->get('email');
-        $user = Actor::where("email", "=", $email)->first();
+        $actor = Actor::where("email", "=", $email)->first();
 
         try {
-            $generator = new LoginUrl($user);
-            $generator->setRedirectUrl('/'); // Override the default url to redirect to after login
-            $data['url'] = $generator->generate();
-            $data['user'] = $user;
+            if (!isset($actor) || $actor == null) {
+                return response()->json(["success" => "false"], 401);
+            } else {
+                $magicLink = \Str::random(25);
+                $actor->magic_link = $magicLink;
+                $actor->save();
 
-            Mail::to($user->email)->send(new ActorLoginMail($data));
-
-            return response()->json(["body" => "success"], 200);
+                $data['url'] = $magicLink;
+                $data['user'] = $actor;
+                Mail::to($actor->email)->send(new ActorLoginMail($data));
+                return response()->json(["success" => "true"], 200);
+            };
         } catch (\Throwable $th) {
-            return response()->json(["body" => $th], 401);
+            return response()->json(["message" => $th], 401);
+        }
+    }
+
+    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink
+    {
+        $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
+        $actor = Actor::where("id", "=", $id)->first();
+
+        if ($actor->updated_at > $timeNow) {
+            if ($ml == $actor->magic_link) {
+                \Auth::login($actor, true);
+                return response()->json(["success" => "true", "message" => \Auth::user()->email], 401);
+            } else {
+                return response()->json(["success" => "false", "message" => "le magicLink ne correspond pas"], 401);
+            }
+        } else {
+            return response()->json(["success" => "false", "message" => "Date éxpiré"], 401);
         }
     }
 }

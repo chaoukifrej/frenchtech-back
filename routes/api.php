@@ -28,12 +28,15 @@ Route::prefix('GET')->group(function () {
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
+
+    //GET CONFIRM LOGIN
+    Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
 });
 
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
     //REGISTER -> BUFFER
-    Route::post('register', 'auth\RegisterController@store')->name('register.store');
+    Route::post('register', 'Auth\RegisterController@store')->name('register.store');
 
     //LOGIN MAGIC LINK
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
