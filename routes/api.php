@@ -36,7 +36,7 @@ Route::prefix('POST')->group(function () {
     Route::post('register', 'auth\RegisterController@store')->name('register.store');
 
     //LOGIN MAGIC LINK
-    Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
+    Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 });
 
 //!ROUTES ADMIN
