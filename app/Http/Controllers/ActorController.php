@@ -81,7 +81,7 @@ class ActorController extends Controller
      */
     public function update(Request $request, Actor $actor)
     {
-        //
+        $validateActor = Buffer::find($request->id);
     }
 
     /**
@@ -90,9 +90,15 @@ class ActorController extends Controller
      * @param  \App\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actor $actor)
+    public function destroy(Request $request)
     {
-        //
+        try {
+
+            $deletActor = Actor::find($request->id)->delete();
+            return response()->json(['body' => ['Actor deleted' => $deletActor]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['body' => $th], 401);
+        }
     }
 
     /**

@@ -16,8 +16,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
 //!ROUTES EN GET
 Route::prefix('GET')->group(function () {
     //GET CONFIRM LOGIN
@@ -39,20 +37,32 @@ Route::prefix('POST')->group(function () {
     Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //POST MÉTRIC
-    Route::post('historic', 'HistoricController@store')->name('historic.store');
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
+
+    //VALIDATE BUFFER --> ACTOR
+    Route::post('validate', 'ActorController@update')->name('validate.update');
 });
 
 //!ROUTES ADMIN
 Route::prefix('admin')->group(function () {
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
+        // DONNEE HISTORIQUE
+        Route::get('historic', 'HistoricController@show')->name('historic.show');
     });
 
     //?ROUTES EN POST
     Route::prefix('POST')->group(function () {
+    });
+
+    //?ROUTES EN POST
+    Route::prefix('DELETE')->group(function () {
+        // SUPPRIMER ACTOR
+        Route::delete('actor', 'ActorController@destroy')->name('actor.destroy');
+        // SUPPRIMER BUFFER
+        Route::delete('buffer', 'BufferController@destroy')->name('buffer.destroy');
     });
 });

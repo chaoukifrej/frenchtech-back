@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actor;
 use App\Historic;
 use Illuminate\Http\Request;
 
@@ -35,28 +34,7 @@ class HistoricController extends Controller
      */
     public function store()
     {
-        $total_actors = Actor::where('category', 'like', 'startUp')->get()->count();
-        $total_funds = (int) Actor::sum('funds');
-        $total_jobs_available = (int) Actor::sum('jobs_available_number');
-        $total_women_number = (int) Actor::sum('women_number');
-        $total_revenues = (int) Actor::sum('revenues');
-
-        // Function Schedule
-        Historic::create([
-            'total_actors' => $total_actors,
-            'total_funds' => $total_funds,
-            'total_jobs_available' => $total_jobs_available,
-            'total_women_number' => $total_women_number,
-            'total_revenues' => $total_revenues,
-        ]);
-
-        return response()->json([
-            'total_actors' => $total_actors,
-            'total_funds' => $total_funds,
-            'total_jobs_available' => $total_jobs_available,
-            'total_women_number' => $total_women_number,
-            'total_revenues' => $total_revenues,
-        ]);
+        //
     }
 
     /**
@@ -67,7 +45,13 @@ class HistoricController extends Controller
      */
     public function show(Historic $historic)
     {
-        //
+        try {
+            $historic = Historic::all();
+
+            return response()->json(['body' => ['historic' => $historic]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['body' => $th], 401);
+        }
     }
 
     /**

@@ -24,8 +24,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+
+            $total_actors = Actor::where('category', 'like', 'startUp')->get()->count();
+            $total_funds = (int) Actor::sum('funds');
+            $total_jobs_available = (int) Actor::sum('jobs_available_number');
+            $total_women_number = (int) Actor::sum('women_number');
+            $total_revenues = (int) Actor::sum('revenues');
+
+            Historic::create([
+                'total_actors' => $total_actors,
+                'total_funds' => $total_funds,
+                'total_jobs_available' => $total_jobs_available,
+                'total_women_number' => $total_women_number,
+                'total_revenues' => $total_revenues,
+            ]);
+        })->daily();
     }
 
     /**
@@ -35,8 +49,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
+        $this->load(__DIR__ . '/Commands');
         require base_path('routes/console.php');
     }
 }

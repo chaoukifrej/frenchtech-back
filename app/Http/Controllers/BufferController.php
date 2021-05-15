@@ -78,8 +78,14 @@ class BufferController extends Controller
      * @param  \App\Buffer  $buffer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Buffer $buffer)
+    public function destroy(Request $request)
     {
-        //
+        try {
+
+            $deletBuffer = Buffer::find($request->id)->delete();
+            return response()->json(['body' => ['Buffer deleted' => $deletBuffer]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['body' => $th], 401);
+        }
     }
 }
