@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ActorLoginMail;
 use Illuminate\Support\Carbon;
 
+
 class LoginController extends Controller
 {
     /*
