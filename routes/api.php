@@ -23,6 +23,9 @@ Route::prefix('GET')->group(function () {
     //GET CONFIRM LOGIN
     Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
 
+    //GET LOGOUT
+    Route::get('logout', 'Auth\LoginController@logout')->name('login.logout')->middleware('auth:api');
+
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
@@ -39,7 +42,6 @@ Route::prefix('POST')->group(function () {
     Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //POST MÉTRIC
-    Route::post('historic', 'HistoricController@store')->name('historic.store');
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
     //REGISTER -> BUFFER
