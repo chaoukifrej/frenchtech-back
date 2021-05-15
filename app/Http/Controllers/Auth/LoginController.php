@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ActorLoginMail;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class LoginController extends Controller
@@ -44,7 +45,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function sendLoginLink(Request $request)
+    public function sendLoginLink(Request $request) //Envoi de l'email avec le magic linkg
     {
 
         $email = $request->get('email');
@@ -68,21 +69,35 @@ class LoginController extends Controller
         }
     }
 
-    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink
+    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink et creation du token
     {
         $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
         $actor = Actor::where("id", "=", $id)->first();
 
         if ($actor->updated_at > $timeNow) {
             if ($ml == $actor->magic_link) {
-                $actor->api_token = \Str::random(80);
+                $token = \Str::random(80);
+                $actor->api_token = hash('sha256', $token);
                 $actor->save();
-                return response()->json(["success" => "true", "message" => "Connexion réussi", 'token' => $actor->api_token], 200);
+                return response()->json(["success" => "true", "message" => "Connexion réussi", 'token' => $token], 200);
             } else {
                 return response()->json(["success" => "false", "message" => "le magicLink ne correspond pas"], 401);
             }
         } else {
             return response()->json(["success" => "false", "message" => "Date éxpiré"], 401);
+        }
+    }
+
+    public function logout() // Logout avec suppression de l'api_token
+    {
+        try {
+            $id = Auth::user()->id;
+            $actor = Actor::where("id", "=", $id)->first();
+            $actor->api_token = null;
+            $actor->save();
+            return response()->json(["success" => "true"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
         }
     }
 }

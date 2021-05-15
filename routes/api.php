@@ -21,6 +21,9 @@ Route::prefix('GET')->group(function () {
     //GET CONFIRM LOGIN
     Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLogin')->name('login.confirmLogin');
 
+    //GET LOGOUT
+    Route::get('logout', 'Auth\LoginController@logout')->name('login.logout')->middleware('auth:api');
+
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 

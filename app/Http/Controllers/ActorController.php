@@ -19,8 +19,11 @@ class ActorController extends Controller
      */
     public function index()
     {
-        $actors = Actor::all();
-
+        try {
+            $actors = Actor::all();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
         return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
@@ -43,14 +46,16 @@ class ActorController extends Controller
      */
     public function show(Actor $actor)
     {
-        //$startup_number = Actor::count('')
-        $start_up_total = Actor::where('category', 'like', 'startUp')->get()->count();
-        $funds_total = (int) Actor::sum('funds');
-        $employees_number_total = (int) Actor::sum('employees_number');
-        $jobs_number_total = (int) Actor::sum('jobs_available_number');
-        $women_number_total = (int) Actor::sum('women_number');
-        $revenues_total = (int) Actor::sum('revenues');
-
+        try {
+            $start_up_total = Actor::where('category', 'like', 'startUp')->get()->count();
+            $funds_total = (int) Actor::sum('funds');
+            $employees_number_total = (int) Actor::sum('employees_number');
+            $jobs_number_total = (int) Actor::sum('jobs_available_number');
+            $women_number_total = (int) Actor::sum('women_number');
+            $revenues_total = (int) Actor::sum('revenues');
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
         return response()->json(['body' => [
             'start_up_total' => $start_up_total,
             'funds_total' => $funds_total,
@@ -109,7 +114,11 @@ class ActorController extends Controller
      */
     public function getConnectedActor()
     {
-        $data = Actor::where('id', Auth::user()->id)->first();
+        try {
+            $data = Actor::where('id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
         return response()->json(['body' => ['actor' => $data]], 200);
     }
 }

@@ -50,6 +50,10 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__ . '/Commands');
+<<<<<<< HEAD
+=======
+
+>>>>>>> ccdc9c94add6c5d04b9d94ca45d162c9cde4a0bd
         require base_path('routes/console.php');
     }
 }

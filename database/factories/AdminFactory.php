@@ -10,6 +10,5 @@ $factory->define(Admin::class, function (Faker $faker) {
         'firstname' => 'test',
         'lastname' => 'test',
         'email' => 'test@test.fr',
-        'api_token' => Str::random(80),
     ];
 });
