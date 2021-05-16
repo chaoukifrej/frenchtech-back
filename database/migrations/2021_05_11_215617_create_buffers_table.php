@@ -15,6 +15,7 @@ class CreateBuffersTable extends Migration
     {
         Schema::create('buffers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('type_of_demand');
             $table->timestamps();
             $table->rememberToken();
             $table->string('api_token', 80)
