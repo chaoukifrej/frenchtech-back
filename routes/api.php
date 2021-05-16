@@ -51,8 +51,10 @@ Route::prefix('POST')->group(function () {
 
 //!ROUTES ADMIN
 Route::prefix('admin')->group(function () {
+
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
+
         // DONNEE HISTORIQUE
         Route::get('historic', 'HistoricController@show')->name('historic.show');
     });
@@ -63,8 +65,10 @@ Route::prefix('admin')->group(function () {
 
     //?ROUTES EN POST
     Route::prefix('DELETE')->group(function () {
+
         // SUPPRIMER ACTOR
         Route::delete('actor', 'ActorController@destroy')->name('actor.destroy');
+
         // SUPPRIMER BUFFER
         Route::delete('buffer', 'BufferController@destroy')->name('buffer.destroy');
     });
