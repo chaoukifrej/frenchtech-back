@@ -12,9 +12,6 @@
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 //!ROUTES EN GET
 Route::prefix('GET')->group(function () {
@@ -27,7 +24,7 @@ Route::prefix('GET')->group(function () {
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
-    //GET ACTOR Auth
+    //GET ACTOR Authentifié
     Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor')->middleware('auth:api');
 
     //GET MÉTRIC
@@ -37,10 +34,8 @@ Route::prefix('GET')->group(function () {
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
     //LOGIN MAGIC LINK
-    Route::post('login', 'auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
-
-    //POST MÉTRIC
     Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
+
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
@@ -54,13 +49,20 @@ Route::prefix('admin')->group(function () {
 
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
+        //GET CONFIRM LOGIN
+        Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLoginAdmin')->name('login.confirmLoginAdmin');
 
         // DONNEE HISTORIQUE
         Route::get('historic', 'HistoricController@show')->name('historic.show');
+
+        //GET LOGOUT
+        Route::get('logout', 'Auth\LoginController@logoutAdmin')->name('login.logoutAdmin');
     });
 
     //?ROUTES EN POST
     Route::prefix('POST')->group(function () {
+        //LOGIN -> MagicLink
+        Route::post('login', 'Auth\LoginController@sendLoginLinkAdmin')->name('admin.sendLoginLinkAdmin');
     });
 
     //?ROUTES EN POST
