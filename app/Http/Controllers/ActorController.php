@@ -46,7 +46,7 @@ class ActorController extends Controller
                 'postal_code' => $buffer->postal_code,
                 'city' => $buffer->city,
                 'longitude' => $buffer->longitude,
-                'latitude' => $buffer->latitude,
+                'latitude' => $buffer,
                 'email' => $buffer->email,
                 'facebook' => $buffer->facebook,
                 'linkedin' => $buffer->linkedin,
@@ -65,7 +65,9 @@ class ActorController extends Controller
             if ($newActor) {
                 $buffer = Buffer::destroy($request->id);
                 return response()->json(["message" => "delete"], 200);
-            };
+            } else {
+                return response()->json(["message" => "Aucun acteur cree"], 401);
+            }
 
             return response()->json(['Message' => ["Acteur cree" => $buffer->id]], 200);
         } catch (\Throwable $th) {

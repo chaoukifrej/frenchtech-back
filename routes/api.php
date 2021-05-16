@@ -24,6 +24,9 @@ Route::prefix('GET')->group(function () {
     //GET ALL ACTORS
     Route::get('actors', 'ActorController@index')->name('actor.index');
 
+    //GET ALL BUFFERS
+    Route::get('buffers', 'BufferController@index')->name('buffer.index');
+
     //GET ACTOR Authentifié
     Route::get('actor', 'ActorController@getConnectedActor')->name('actor.getConnectedActor')->middleware('auth:api');
 

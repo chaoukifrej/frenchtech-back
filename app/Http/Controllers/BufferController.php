@@ -14,7 +14,12 @@ class BufferController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $buffers = Buffer::all();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['buffers' => $buffers]], 200);
     }
 
     /**
