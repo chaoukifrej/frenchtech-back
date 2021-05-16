@@ -94,7 +94,7 @@ class LoginController extends Controller
             $actor = Actor::where("id", "=", $id)->first();
             $actor->api_token = null;
             $actor->save();
-            return response()->json(["success" => "true"], 200);
+            return response()->json(["message" => "Déconnexion réussi"], 200);
         } catch (\Throwable $th) {
             return response()->json(["message" => $th], 401);
         }
