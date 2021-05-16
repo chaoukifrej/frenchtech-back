@@ -53,7 +53,7 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         return Validator::make($request, [
-            'logo' => ['required', 'string'],
+            'logo' => ['required|file|image|size:1024|dimensions:max_width=500,max_height=500'],
             'name' => ['required', 'string', 'max:64'],
             'adress' => ['required', 'string', 'max:64'],
             'postal_code' => ['required', 'integer', 'max:5'],
@@ -90,11 +90,12 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         try {
+            $path = $request->file('logo')->store('logos', 'public');
             Buffer::create([
                 'actor_id' => null,
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'logo' => $request['logo'],
+                'logo' => $path,
                 'adress' => $request['adress'],
                 'postal_code' => $request['postal_code'],
                 'city' => $request['city'],
