@@ -90,6 +90,7 @@ class RegisterController extends Controller
             $path = $request->file('logo')->store('logos', 'public');
             Buffer::create([
                 'actor_id' => null,
+                'type_of_demand' => 'register',
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'logo' => $path,
