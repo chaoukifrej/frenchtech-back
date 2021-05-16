@@ -39,9 +39,6 @@ Route::prefix('POST')->group(function () {
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
-
-    //VALIDATE BUFFER --> ACTOR
-    Route::post('validate', 'ActorController@update')->name('validate.update');
 });
 
 //!ROUTES ADMIN
@@ -63,6 +60,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('POST')->group(function () {
         //LOGIN -> MagicLink
         Route::post('login', 'Auth\LoginController@sendLoginLinkAdmin')->name('admin.sendLoginLinkAdmin');
+
+        //VALIDATE BUFFER --> ACTOR
+        Route::post('validate', 'ActorController@store')->name('validate.store');
     });
 
     //?ROUTES EN POST

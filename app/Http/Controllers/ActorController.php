@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\Buffer;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,41 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        // in RegisterController
+
+        $buffer = Buffer::find($request->id);
+        try {
+            $newActor = Actor::create([
+                'logo' => $buffer->logo,
+                'name' => $buffer->name,
+                'adress' => $buffer->adress,
+                'postal_code' => $buffer->postal_code,
+                'city' => $buffer->city,
+                'longitude' => $buffer->longitude,
+                'latitude' => $buffer->latitude,
+                'email' => $buffer->email,
+                'facebook' => $buffer->facebook,
+                'linkedin' => $buffer->linkedin,
+                'twitter' => $buffer->twitter,
+                'website' => $buffer->website,
+                'phone' => $buffer->phone,
+                'category' => $buffer->category,
+                'description' => $buffer->description,
+                'activity_area' => $buffer->activity_area,
+                'funds' => $buffer->funds,
+                'employees_number' => $buffer->employees_number,
+                'jobs_available_number' => $buffer->jobs_available_number,
+                'women_number' => $buffer->women_number,
+                'revenues' => $buffer->revenues,
+            ]);
+            if ($newActor) {
+                $buffer = Buffer::destroy($request->id);
+                return response()->json(["message" => "delete"], 200);
+            };
+
+            return response()->json(['Message' => ["Acteur cree" => $buffer->id]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['Error' => $th], 401);
+        }
     }
 
     /**
@@ -86,7 +121,7 @@ class ActorController extends Controller
      */
     public function update(Request $request, Actor $actor)
     {
-        $validateActor = Buffer::find($request->id);
+        //
     }
 
     /**
