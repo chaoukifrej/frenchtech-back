@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Buffer;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -60,7 +57,7 @@ class RegisterController extends Controller
             'city' => ['required', 'string', 'max:64'],
             'longitude' => ['numeric', 'nullable'],
             'latitude' => ['numeric', 'nullable'],
-            'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:64', 'unique:actors'],
             'phone' => ['required', 'string', 'max:20'],
             'category' => ['required', 'string', 'max:64'],
             'associations' => ['nullable', 'string', 'max:64'],
