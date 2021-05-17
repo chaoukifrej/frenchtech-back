@@ -47,10 +47,24 @@ class LoginController extends Controller
         //$this->middleware('guest:admin')->except(['logout', 'logoutAdmin']);
     }
 
-    public function sendLoginLink(Request $request) //Envoi de l'email avec le magic linkg
+    public function sendMagicLink(Request $request)
+    {
+        $email = $request->email;
+        $actor = Actor::where("email", "=", $email)->first();
+        $sendToAdmin = false;
+
+        $actor ? $sendToAdmin = false : $sendToAdmin = true;
+
+        if ($sendToAdmin) {
+            $this->sendLoginLinkAdmin($email);
+        } else {
+            $this->sendLoginLink($email);
+        }
+    }
+
+    public function sendLoginLink($email) //Envoi de l'email avec le magic link ACTOR
     {
 
-        $email = $request->email;
         $actor = Actor::where("email", "=", $email)->first();
 
         try {
@@ -71,7 +85,7 @@ class LoginController extends Controller
         }
     }
 
-    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink et creation du token
+    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink et creation du token ACTOR
     {
         $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
         $actor = Actor::where("id", "=", $id)->first();
@@ -90,7 +104,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logout() // Logout avec suppression de l'api_token
+    public function logout() // Logout avec suppression de l'api_token ACTOR
     {
         try {
             $id = Auth::user()->id;
@@ -104,10 +118,9 @@ class LoginController extends Controller
     }
 
 
-    public function sendLoginLinkAdmin(Request $request)
+    public function sendLoginLinkAdmin($email) //Envoi de l'email avec le magic link ADMIN
     {
 
-        $email = $request->email;
         $admin = Admin::where("email", "=", $email)->first();
 
         try {
@@ -128,7 +141,7 @@ class LoginController extends Controller
         }
     }
 
-    public function confirmLoginAdmin($ml, $id)  //Confirmation du login avec magicLink et creation du token
+    public function confirmLoginAdmin($ml, $id)  //Confirmation du login avec magicLink et creation du token ADMIN
     {
         $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
         $admin = Admin::where("id", "=", $id)->first();
@@ -147,7 +160,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logoutAdmin() // Logout avec suppression de l'api_token
+    public function logoutAdmin() // Logout avec suppression de l'api_token ADMIN
     {
         try {
             $id = Auth::guard('admin')->user()->id;
