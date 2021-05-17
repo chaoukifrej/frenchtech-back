@@ -50,7 +50,7 @@ class LoginController extends Controller
     public function sendLoginLink(Request $request) //Envoi de l'email avec le magic linkg
     {
 
-        $email = $request->get('email');
+        $email = $request->email;
         $actor = Actor::where("email", "=", $email)->first();
 
         try {
@@ -107,7 +107,7 @@ class LoginController extends Controller
     public function sendLoginLinkAdmin(Request $request)
     {
 
-        $email = $request->get('email');
+        $email = $request->email;
         $admin = Admin::where("email", "=", $email)->first();
 
         try {
