@@ -50,7 +50,7 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         return Validator::make($request, [
-            'logo' => ['required|file|image|size:2048|dimensions:max_width=500,max_height=500'],
+            'logo' => ['required|file|image|size:2048|dimensions:max_width=1024,max_height=1024'],
             'name' => ['required', 'string', 'max:64'],
             'adress' => ['required', 'string', 'max:64'],
             'postal_code' => ['required', 'integer', 'max:5'],
