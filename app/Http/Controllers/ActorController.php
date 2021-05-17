@@ -153,6 +153,8 @@ class ActorController extends Controller
     {
         try {
             $data = Actor::where('id', Auth::user()->id)->first();
+            $data->makeVisible(['funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues',])
+                ->makeHidden(['created_at', 'updated_at']);
         } catch (\Throwable $th) {
             return response()->json(["message" => $th], 401);
         }

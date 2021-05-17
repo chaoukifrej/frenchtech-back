@@ -55,17 +55,6 @@ class BufferController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Buffer  $buffer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Buffer $buffer)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
