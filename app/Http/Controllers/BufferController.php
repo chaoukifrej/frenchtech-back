@@ -86,9 +86,9 @@ class BufferController extends Controller
     public function destroy(Request $request)
     {
         try {
-
+            $buffers = Buffer::all();
             $deletBuffer = Buffer::find($request->id)->delete();
-            return response()->json(['body' => ['Buffer deleted' => $deletBuffer]], 200);
+            return response()->json(['body' => ['Buffer deleted' => $deletBuffer, "Buffers" => $buffers]], 200);
         } catch (\Throwable $th) {
             return response()->json(['body' => $th], 401);
         }
