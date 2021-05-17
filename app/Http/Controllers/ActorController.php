@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actor;
+use App\Buffer;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Auth;
 
 class ActorController extends Controller
 {
@@ -19,8 +20,11 @@ class ActorController extends Controller
      */
     public function index()
     {
-        $actors = Actor::all();
-
+        try {
+            $actors = Actor::all();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
         return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
@@ -32,7 +36,43 @@ class ActorController extends Controller
      */
     public function store(Request $request)
     {
-        // in RegisterController
+
+        $buffer = Buffer::find($request->id);
+        try {
+            $newActor = Actor::create([
+                'logo' => $buffer->logo,
+                'name' => $buffer->name,
+                'adress' => $buffer->adress,
+                'postal_code' => $buffer->postal_code,
+                'city' => $buffer->city,
+                'longitude' => $buffer->longitude,
+                'latitude' => $buffer,
+                'email' => $buffer->email,
+                'facebook' => $buffer->facebook,
+                'linkedin' => $buffer->linkedin,
+                'twitter' => $buffer->twitter,
+                'website' => $buffer->website,
+                'phone' => $buffer->phone,
+                'category' => $buffer->category,
+                'description' => $buffer->description,
+                'activity_area' => $buffer->activity_area,
+                'funds' => $buffer->funds,
+                'employees_number' => $buffer->employees_number,
+                'jobs_available_number' => $buffer->jobs_available_number,
+                'women_number' => $buffer->women_number,
+                'revenues' => $buffer->revenues,
+            ]);
+            if ($newActor) {
+                $buffer = Buffer::destroy($request->id);
+                return response()->json(["message" => "delete"], 200);
+            } else {
+                return response()->json(["message" => "Aucun acteur cree"], 401);
+            }
+
+            return response()->json(['Message' => ["Acteur cree" => $buffer->id]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['Error' => $th], 401);
+        }
     }
 
     /**
@@ -43,14 +83,16 @@ class ActorController extends Controller
      */
     public function show(Actor $actor)
     {
-        //$startup_number = Actor::count('')
-        $start_up_total = Actor::where('category', 'like', 'startUp')->get()->count();
-        $funds_total = (int) Actor::sum('funds');
-        $employees_number_total = (int) Actor::sum('employees_number');
-        $jobs_number_total = (int) Actor::sum('jobs_available_number');
-        $women_number_total = (int) Actor::sum('women_number');
-        $revenues_total = (int) Actor::sum('revenues');
-
+        try {
+            $start_up_total = Actor::where('category', 'like', 'startUp')->get()->count();
+            $funds_total = (int) Actor::sum('funds');
+            $employees_number_total = (int) Actor::sum('employees_number');
+            $jobs_number_total = (int) Actor::sum('jobs_available_number');
+            $women_number_total = (int) Actor::sum('women_number');
+            $revenues_total = (int) Actor::sum('revenues');
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
         return response()->json(['body' => [
             'start_up_total' => $start_up_total,
             'funds_total' => $funds_total,
@@ -90,9 +132,15 @@ class ActorController extends Controller
      * @param  \App\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actor $actor)
+    public function destroy(Request $request)
     {
-        //
+        try {
+
+            $deletActor = Actor::find($request->id)->delete();
+            return response()->json(['body' => ['Actor deleted' => $deletActor]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['body' => $th], 401);
+        }
     }
 
     /**
@@ -101,10 +149,13 @@ class ActorController extends Controller
      * @param  \App\Actor  $actor
      * @return \Illuminate\Http\Response
      */
-    public function getConnectedActor(Actor $actor)
+    public function getConnectedActor()
     {
-        $actor = Actor::where('id', 2)->first();
-
-        return response()->json(['body' => ['actor' => $actor]], 200);
+        try {
+            $data = Actor::where('id', Auth::user()->id)->first();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['actor' => $data]], 200);
     }
 }

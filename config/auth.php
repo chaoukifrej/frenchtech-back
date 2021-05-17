@@ -42,9 +42,15 @@ return [
         ],
 
         'api' => [
-            'driver' => 'session',
+            'driver' => 'token',
             'provider' => 'users',
-            'hash' => false,
+            'hash' => true,
+        ],
+
+        'admin' => [
+            'driver' => 'token',
+            'provider' => 'admins',
+            'hash' => true,
         ],
     ],
 
@@ -66,15 +72,20 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        /* 'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ], */
+
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Actor::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
+        ],
     ],
 
     /*

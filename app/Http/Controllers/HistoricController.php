@@ -24,7 +24,6 @@ class HistoricController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -33,7 +32,7 @@ class HistoricController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         //
     }
@@ -46,7 +45,13 @@ class HistoricController extends Controller
      */
     public function show(Historic $historic)
     {
-        //
+        try {
+            $historic = Historic::all();
+
+            return response()->json(['body' => ['historic' => $historic]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['body' => $th], 401);
+        }
     }
 
     /**

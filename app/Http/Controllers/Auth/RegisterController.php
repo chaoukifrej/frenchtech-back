@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Buffer;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -53,14 +50,14 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         return Validator::make($request, [
-            'logo' => ['required', 'string'],
+            'logo' => ['required|file|image|size:2048|dimensions:max_width=500,max_height=500'],
             'name' => ['required', 'string', 'max:64'],
             'adress' => ['required', 'string', 'max:64'],
             'postal_code' => ['required', 'integer', 'max:5'],
             'city' => ['required', 'string', 'max:64'],
             'longitude' => ['numeric', 'nullable'],
             'latitude' => ['numeric', 'nullable'],
-            'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:64', 'unique:actors'],
             'phone' => ['required', 'string', 'max:20'],
             'category' => ['required', 'string', 'max:64'],
             'associations' => ['nullable', 'string', 'max:64'],
@@ -90,11 +87,13 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         try {
+            $path = $request->file('logo')->store('logos', 'public');
             Buffer::create([
                 'actor_id' => null,
+                'type_of_demand' => 'register',
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'logo' => $request['logo'],
+                'logo' => $path,
                 'adress' => $request['adress'],
                 'postal_code' => $request['postal_code'],
                 'city' => $request['city'],

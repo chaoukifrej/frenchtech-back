@@ -12,6 +12,10 @@
             padding: 30px;
         }
 
+        .content-mail {
+            text-align: center
+        }
+
         .text-blue-color {
             color: #244062;
         }
@@ -22,7 +26,7 @@
             white-space: pre-wrap;
         }
 
-        .email a {
+        .btnSend {
             background: #274062;
             color: #FFF;
             padding: 12px 30px;
@@ -37,16 +41,45 @@
             border: 0;
         }
 
+        .btnSend:hover {
+            transform: scale(1.03);
+        }
+
+        .logo {
+            margin-bottom: 50px;
+            text-align: center;
+            width: 180px;
+        }
+
     </style>
 </head>
 
 <body style="background-color: #edf2f7; margin: 50px auto;">
     <div class="email">
-        <div style="text-align: left;" class="text-blue-color">
-            <strong>Hi {{ $user->name }},</strong>
-            <p>Vous avez 5 minutes pour vous connecter</p>
+        <div class="content-mail">
+            <div class="img">
+                <img class="logo" src="{{ asset('img/logo2.png') }}" alt="Logo">
+            </div>
+            <div style="text-align: center;" class="text-blue-color">
+            </div>
+            @if (isset($user))
+                <strong>Bonjour {{ $user->name }},</strong><br>
+                <p style="text-align: center;">Vous avez 5 minutes pour vous connecter</p>
+                <a class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getToken/' . $url . '/' . $user->id }}">Se
+                    connecter</a>
+            @else
+                <strong>Bonjour {{ $admin->firstname }},</strong><br>
+                <p style="text-align: center;">Vous avez 5 minutes pour vous connecter</p>
+                <a class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getTokenAdmin/' . $url . '/' . $admin->id }}">Se
+                    connecter</a>
+            @endif
+
+            <br><br><br>
+
+            <a style="text-decoration:none;text-align:right; font-style: italic; color : #274062; font-size : 13px"
+                href="https://www.frenchtechcotedazur.fr/">L'équipe French Tech</a>
+
         </div>
-        <a href="{{ ENV('APP_URL') . '/api/GET/login/' . $url . '/' . $user->id }}">Se connecter</a>
     </div>
 </body>
 
