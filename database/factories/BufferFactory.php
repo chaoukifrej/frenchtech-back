@@ -9,7 +9,7 @@ $factory->define(Buffer::class, function (Faker $faker) {
     return [
         'logo' => $faker->imageUrl(640, 480, 'animals', true),
         'name' => $faker->name,
-        'type_of_demand' => 'register',
+        'type_of_demand' => $faker->randomElement(['register', 'update', 'delete']),
         'adress' => $faker->address,
         'postal_code' => $faker->randomNumber(5, true),
         'city' => $faker->word(),
