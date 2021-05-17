@@ -69,9 +69,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('DELETE')->group(function () {
 
         // SUPPRIMER ACTOR
-        Route::delete('actor', 'ActorController@destroy')->name('actor.destroy');
+        Route::delete('actor/{id}', 'ActorController@destroy')->name('actor.destroy');
 
         // SUPPRIMER BUFFER
-        Route::delete('buffer', 'BufferController@destroy')->name('buffer.destroy');
+        Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
     });
 });
