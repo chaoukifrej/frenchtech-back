@@ -50,7 +50,7 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         return Validator::make($request, [
-            'logo' => ['required|file|image|size:2048|dimensions:max_width=1024,max_height=1024'],
+            'logo' => ['required|string'],
             'name' => ['required', 'string', 'max:64'],
             'adress' => ['required', 'string', 'max:64'],
             'postal_code' => ['required', 'integer', 'max:5'],
@@ -87,13 +87,20 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         try {
-            $path = $request->file('logo')->store('logos', 'public');
+            $image_64 = $request->logo; //Base64
+            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+            $image = str_replace($replace, '', $image_64);
+            $image = str_replace(' ', '+', $image);
+            $imageName = \Str::random(10) . '.' . $extension; //nom
+            \Storage::disk('public')->put($imageName, base64_decode($image));
+            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
             Buffer::create([
                 'actor_id' => null,
                 'type_of_demand' => 'register',
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'logo' => $path,
+                'logo' => $LogoUrl,
                 'adress' => $request['adress'],
                 'postal_code' => $request['postal_code'],
                 'city' => $request['city'],
@@ -114,9 +121,9 @@ class RegisterController extends Controller
                 'women_number' => $request['women_number'],
                 'revenues' => $request['revenues'],
             ]);
-            return response()->json(["body" => "success"], 200);
         } catch (\Throwable $th) {
             return response()->json(["body" => $th], 401);
         }
+        return response()->json(["body" => "Enregistrement effectué, en attente de validation par l'admin...", "test" => $imageName], 200);
     }
 }
