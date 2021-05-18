@@ -47,31 +47,57 @@ class LoginController extends Controller
         //$this->middleware('guest:admin')->except(['logout', 'logoutAdmin']);
     }
 
-    public function sendLoginLink(Request $request) //Envoi de l'email avec le magic linkg
+
+    //!-------------------------------ACTOR & ADMIN--------------------------------------
+
+    public function sendMagicLink(Request $request)
     {
-
-        $email = $request->get('email');
+        $email = $request->email;
         $actor = Actor::where("email", "=", $email)->first();
+        $admin = Admin::where("email", "=", $email)->first();
+        $sendToAdmin = false;
 
-        try {
-            if (!isset($actor) || $actor == null) {
-                return response()->json(["success" => "aucun acteur trouvé"], 401);
-            } else {
-                $magicLink = \Str::random(25);
-                $actor->magic_link = $magicLink;
-                $actor->save();
 
-                $data['url'] = $magicLink;
-                $data['user'] = $actor;
-                Mail::to($actor->email)->send(new ActorLoginMail($data));
-                return response()->json(["success" => "lien envoyé par email"], 200);
-            };
-        } catch (\Throwable $th) {
-            return response()->json(["message" => $th], 401);
+        $actor ? $sendToAdmin = false : $sendToAdmin = true;
+
+        if ($sendToAdmin) {
+            try {
+                if (!isset($admin) || $admin == null) {
+                    return response()->json(["success" => "Aucun admin trouvé"], 401);
+                } else {
+                    $magicLink = \Str::random(25);
+                    $admin->magic_link = $magicLink;
+                    $admin->save();
+
+                    $data['url'] = $magicLink;
+                    $data['admin'] = $admin;
+                    Mail::to($admin->email)->send(new AdminLoginMail($data));
+                    return response()->json(["success" => "Lien magique envoyé par email"], 200);
+                };
+            } catch (\Throwable $th) {
+                return response()->json(["message" => $th], 401);
+            }
+        } else {
+            try {
+                if (!isset($actor) || $actor == null) {
+                    return response()->json(["success" => "aucun acteur trouvé"], 401);
+                } else {
+                    $magicLink = \Str::random(25);
+                    $actor->magic_link = $magicLink;
+                    $actor->save();
+
+                    $data['url'] = $magicLink;
+                    $data['user'] = $actor;
+                    Mail::to($actor->email)->send(new ActorLoginMail($data));
+                    return response()->json(["success" => "lien envoyé par email"], 200);
+                };
+            } catch (\Throwable $th) {
+                return response()->json(["message" => $th], 401);
+            }
         }
     }
-
-    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink et creation du token
+    //!-------------------------------ACTOR--------------------------------------
+    public function confirmLogin($ml, $id)  //Confirmation du login avec magicLink et creation du token ACTOR
     {
         $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
         $actor = Actor::where("id", "=", $id)->first();
@@ -90,7 +116,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logout() // Logout avec suppression de l'api_token
+    public function logout() // Logout avec suppression de l'api_token ACTOR
     {
         try {
             $id = Auth::user()->id;
@@ -104,31 +130,9 @@ class LoginController extends Controller
     }
 
 
-    public function sendLoginLinkAdmin(Request $request)
-    {
+    //!-------------------------------ADMIN--------------------------------------
 
-        $email = $request->get('email');
-        $admin = Admin::where("email", "=", $email)->first();
-
-        try {
-            if (!isset($admin) || $admin == null) {
-                return response()->json(["success" => "Aucun admin trouvé"], 401);
-            } else {
-                $magicLink = \Str::random(25);
-                $admin->magic_link = $magicLink;
-                $admin->save();
-
-                $data['url'] = $magicLink;
-                $data['admin'] = $admin;
-                Mail::to($admin->email)->send(new AdminLoginMail($data));
-                return response()->json(["success" => "Lien magique envoyé par email"], 200);
-            };
-        } catch (\Throwable $th) {
-            return response()->json(["message" => $th], 401);
-        }
-    }
-
-    public function confirmLoginAdmin($ml, $id)  //Confirmation du login avec magicLink et creation du token
+    public function confirmLoginAdmin($ml, $id)  //Confirmation du login avec magicLink et creation du token ADMIN
     {
         $timeNow = Carbon::now()->subMinutes(5)->toDateTimeString();
         $admin = Admin::where("id", "=", $id)->first();
@@ -147,7 +151,7 @@ class LoginController extends Controller
         }
     }
 
-    public function logoutAdmin() // Logout avec suppression de l'api_token
+    public function logoutAdmin() // Logout avec suppression de l'api_token ADMIN
     {
         try {
             $id = Auth::guard('admin')->user()->id;

@@ -36,9 +36,9 @@ Route::prefix('GET')->group(function () {
 
 //!ROUTES EN POST
 Route::prefix('POST')->group(function () {
-    //LOGIN MAGIC LINK
-    Route::post('login', 'Auth\LoginController@sendLoginLink')->name('login.sendLoginLink');
 
+    //LOGIN MAGIC LINK
+    Route::post('login', 'Auth\LoginController@sendMagicLink')->name('login.sendMagicLink');
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
@@ -61,9 +61,6 @@ Route::prefix('admin')->group(function () {
 
     //?ROUTES EN POST
     Route::prefix('POST')->group(function () {
-        //LOGIN -> MagicLink
-        Route::post('login', 'Auth\LoginController@sendLoginLinkAdmin')->name('admin.sendLoginLinkAdmin');
-
         //VALIDATE BUFFER --> ACTOR
         Route::post('validate', 'ActorController@store')->name('validate.store');
     });
