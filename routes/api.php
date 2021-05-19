@@ -46,7 +46,6 @@ Route::prefix('POST')->group(function () {
 
 //!ROUTES ADMIN
 Route::prefix('admin')->group(function () {
-
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
         //GET CONFIRM LOGIN
