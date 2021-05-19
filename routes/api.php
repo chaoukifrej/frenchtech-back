@@ -86,3 +86,9 @@ Route::prefix('admin')->group(function () {
         Route::delete('demande/actor/{id}', 'ActorController@deleteDemande')->name('actor.deleteDemande');
     });
 });
+
+
+//!ROUTES EXCEL
+Route::prefix('excel')->group(function () {
+    Route::get('actors/export', 'ActorsExportController@export');
+});
