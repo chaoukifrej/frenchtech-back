@@ -188,8 +188,7 @@ class ActorController extends Controller
             $buffer = Buffer::where('actor_id', $actor->id)->first();
             $buffer->delete();
             $actor->delete();
-            $letBuffer = Buffer::all();
-            return response()->json(["body" => ["buffers" => $letBuffer]], 201);
+            return response()->json(["body" => "success"], 201);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }
