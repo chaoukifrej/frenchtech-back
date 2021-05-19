@@ -180,6 +180,15 @@ class ActorController extends Controller
         }
     }
 
+    public function deleteDemande(Request $request)
+    {
+        $actor = Actor::find($request->id);
+        $buffer = Buffer::where('actor_id', $actor->id)->first();
+        $buffer->delete();
+        $actor->delete();
+        return response()->json(["body" => $actor, $buffer]);
+    }
+
     /**
      * Get the specified resource from storage.
      *
