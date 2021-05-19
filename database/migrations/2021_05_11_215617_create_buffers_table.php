@@ -27,7 +27,9 @@ class CreateBuffersTable extends Migration
             $table->unsignedBigInteger('actor_id')->nullable();
             $table->foreign('actor_id')
                 ->references('id')
-                ->on('actors');
+                ->on('actors')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');;
 
             $table->longText('logo');
             $table->string('name', 64);
