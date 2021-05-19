@@ -135,11 +135,48 @@ class ActorController extends Controller
     public function destroy(Request $request)
     {
         try {
-
+            $actors = Actor::all();
             $deletActor = Actor::find($request->id)->delete();
-            return response()->json(['body' => ['Actor deleted' => $deletActor]], 200);
+            return response()->json(['body' => ['Buffer deleted' => $deletActor, "Buffers" => $actors]], 200);
         } catch (\Throwable $th) {
             return response()->json(['body' => $th], 401);
+        }
+    }
+
+    public function sendDelete(Request $request)
+    {
+
+        try {
+            $actor = Actor::find($request->id);
+            $send = Buffer::create([
+                'actor_id' => $actor->id,
+                'type_of_demand' => 'delete',
+                'name' => $actor->name,
+                'email' => $actor->email,
+                'logo' => $actor->logo,
+                'adress' => $actor->adress,
+                'postal_code' => $actor->postal_code,
+                'city' => $actor->city,
+                'longitude' => $actor->longitude,
+                'latitude' => $actor->latitude,
+                'phone' => $actor->phone,
+                'category' => $actor->category,
+                'associations' => $actor->associations,
+                'description' => $actor->description,
+                'facebook' => $actor->facebook,
+                'twitter' => $actor->twitter,
+                'linkedin' => $actor->linkedin,
+                'website' => $actor->website,
+                'activity_area' => $actor->activity_area,
+                'funds' => $actor->funds,
+                'employees_number' => $actor->employees_number,
+                'jobs_available_number' => $actor->jobs_available_number,
+                'women_number' => $actor->women_number,
+                'revenues' => $actor->revenues,
+            ]);
+            return response()->json(["body" => ["Message" => "succès"]], 201);
+        } catch (\Throwable $th) {
+            return response()->json(["Body" => ["Message" => $th]], 401);
         }
     }
 

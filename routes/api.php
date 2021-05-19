@@ -32,6 +32,9 @@ Route::prefix('GET')->group(function () {
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
+
+    //DEMANDE DE SUPPRESSION
+    Route::get('delete/{id}', 'ActorController@sendDelete')->name('actor.sendDelete');
 });
 
 //!ROUTES EN POST
@@ -78,6 +81,6 @@ Route::prefix('admin')->group(function () {
         Route::delete('actor/{id}', 'ActorController@destroy')->name('actor.destroy');
 
         // SUPPRIMER BUFFER
-        Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy')->middleware('auth:admin');
+        Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
     });
 });

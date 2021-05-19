@@ -68,32 +68,35 @@ class BufferController extends Controller
         try {
             $buffer = Buffer::find($request->id);
 
-            Validator::make($request->all(), [
-                'logo' => ['required', 'string'],
-                'name' => ['required', 'string', 'max:64'],
-                'adress' => ['required', 'string', 'max:64'],
-                'postal_code' => ['required', 'integer', 'max:5'],
-                'city' => ['required', 'string', 'max:64'],
+            Validator::make(
+                $request->all(),
+                [
+                    'logo' => ['required', 'string'],
+                    'name' => ['required', 'string', 'max:64'],
+                    'adress' => ['required', 'string', 'max:64'],
+                    'postal_code' => ['required', 'integer', 'max:5'],
+                    'city' => ['required', 'string', 'max:64'],
 
-                'email' => ['required', 'string', 'email', 'max:64', 'unique:actors'],
-                'phone' => ['required', 'string', 'max:20'],
-                'category' => ['required', 'string', 'max:64'],
-                'associations' => ['nullable', 'string', 'max:64'],
-                'description' => ['required', 'string'],
+                    'email' => ['required', 'string', 'email', 'max:64', 'unique:actors'],
+                    'phone' => ['required', 'string', 'max:20'],
+                    'category' => ['required', 'string', 'max:64'],
+                    'associations' => ['nullable', 'string', 'max:64'],
+                    'description' => ['required', 'string'],
 
-                'facebook' => ['nullable', 'string'],
-                'twitter' => ['nullable', 'string'],
-                'linkedin' => ['nullable', 'string'],
-                'website' => ['nullable', 'string'],
+                    'facebook' => ['nullable', 'string'],
+                    'twitter' => ['nullable', 'string'],
+                    'linkedin' => ['nullable', 'string'],
+                    'website' => ['nullable', 'string'],
 
-                'activity_area' => ['required', 'string', 'max:64'],
-                'funds' => ['required', 'numeric'],
-                'employees_number' => ['required', 'integer'],
-                'jobs_available_number' => ['required', 'integer'],
-                'women_number' => ['required', 'integer'],
-                'revenues' => ['required', 'numeric'],
+                    'activity_area' => ['required', 'string', 'max:64'],
+                    'funds' => ['required', 'numeric'],
+                    'employees_number' => ['required', 'integer'],
+                    'jobs_available_number' => ['required', 'integer'],
+                    'women_number' => ['required', 'integer'],
+                    'revenues' => ['required', 'numeric'],
 
-            ])->validate();
+                ],
+            )->validate();
 
             if (!isset($request->name)) {
                 $buffer->name = $buffer->name;
