@@ -17,7 +17,7 @@ $factory->define(Buffer::class, function (Faker $faker) {
         'latitude' => null,
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
-        'category' => $faker->word(),
+        'category' => $faker->randomElement(['startUp', 'Service public', 'Pôle de compétitivité', 'Organisme de formation']),
         'associations' => $faker->word(),
         'description' => $faker->paragraph(),
         'facebook' => $faker->word(),
