@@ -64,7 +64,7 @@ Route::prefix('admin')->group(function () {
         Route::get('logout', 'Auth\LoginController@logoutAdmin')->name('login.logoutAdmin');
 
         //GET ALL ACTORS WITH ALL INFOS
-        Route::get('actors', 'ActorController@getAllInfosActors')->name('actor.getAllInfosActors')->middleware('auth:admin');
+        Route::get('actors', 'ActorController@getAllInfosActors')->name('actor.getAllInfosActors');
     });
 
     //?ROUTES EN POST
