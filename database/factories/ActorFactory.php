@@ -24,11 +24,11 @@ $factory->define(Actor::class, function (Faker $faker) {
         'twitter' => $faker->word(),
         'website' => $faker->word(),
         'activity_area' => $faker->word(),
-        'funds' => $faker->randomFloat(2, 1, 99),
+        'funds' => $faker->numberBetween(0, 1000000),
         'employees_number' => $faker->randomNumber(3, false),
         'jobs_available_number' => $faker->randomNumber(2, false),
         'women_number' => $faker->randomNumber(2, false),
-        'revenues' => $faker->randomFloat(2, 1, 99),
+        'revenues' => $faker->numberBetween(0, 100000),
         'magic_link' => $faker->word(),
     ];
 });
