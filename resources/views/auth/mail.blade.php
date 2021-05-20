@@ -40,7 +40,9 @@
             margin-top: 10px;
             border: 0;
         }
-
+#btnAdmin{
+    background-color: red;
+}
         .btnSend:hover {
             transform: scale(1.03);
         }
@@ -68,9 +70,9 @@
                 <a class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getToken/' . $url . '/' . $user->id }}">Se
                     connecter</a>
             @else
-                <strong>Bonjour {{ $admin->firstname }},</strong><br>
+                <strong>Bonjour Administrateur : {{ $admin->firstname }},</strong><br>
                 <p style="text-align: center;">Vous avez 5 minutes pour vous connecter</p>
-                <a class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getTokenAdmin/' . $url . '/' . $admin->id }}">Se
+                <a id="btnAdmin" class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getTokenAdmin/' . $url . '/' . $admin->id }}">Se
                     connecter</a>
             @endif
 

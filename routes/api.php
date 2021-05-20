@@ -32,6 +32,9 @@ Route::prefix('GET')->group(function () {
 
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
+
+    //DEMANDE DE SUPPRESSION
+    Route::get('delete/demand/{id}', 'ActorController@sendDelete')->name('actor.sendDelete');
 });
 
 //!ROUTES EN POST
@@ -46,7 +49,6 @@ Route::prefix('POST')->group(function () {
 
 //!ROUTES ADMIN
 Route::prefix('admin')->group(function () {
-
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
         //GET CONFIRM LOGIN
@@ -62,10 +64,16 @@ Route::prefix('admin')->group(function () {
     //?ROUTES EN POST
     Route::prefix('POST')->group(function () {
         //VALIDATE BUFFER --> ACTOR
-        Route::post('validate', 'ActorController@store')->name('validate.store');
+        Route::post('validate/{id}', 'ActorController@store')->name('validate.store');
     });
 
-    //?ROUTES EN POST
+    //?ROUTES EN PUT
+    Route::prefix('PUT')->group(function () {
+        //MODIFIER BUFFER
+        Route::put('buffer/{id}', 'BufferController@update')->name('buffer.update');
+    });
+
+    //?ROUTES EN DELETE
     Route::prefix('DELETE')->group(function () {
 
         // SUPPRIMER ACTOR
@@ -73,5 +81,14 @@ Route::prefix('admin')->group(function () {
 
         // SUPPRIMER BUFFER
         Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
+
+        // SUPPRIMER BUFFER
+        Route::delete('demande/actor/{id}', 'ActorController@deleteDemande')->name('actor.deleteDemande');
     });
+});
+
+
+//!ROUTES EXCEL
+Route::prefix('excel')->group(function () {
+    Route::get('actors/export', 'ActorsExportController@export');
 });
