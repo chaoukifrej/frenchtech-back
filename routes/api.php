@@ -84,19 +84,24 @@ Route::prefix('admin')->group(function () {
 
         //MODIFIER ACTORS
         Route::put('actor/{id}', 'ActorController@update')->name('actor.update');
+
+        // MODIFICATION ACTOR SUITE A DEMANDE
+        Route::put('update/actor/{id}', 'ActorController@updateDemande')->name('actor.updateDemande');
     });
 
     //?ROUTES EN DELETE
     Route::prefix('DELETE')->group(function () {
 
-        // SUPPRIMER ACTOR
+        // SUPPRIME DIRECT -> ACTOR
         Route::delete('actor/{id}', 'ActorController@destroy')->name('actor.destroy')->middleware('auth:admin');
 
-        // SUPPRIMER BUFFER
+        // SUPPRIME DIRECT -> BUFFER
         Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
 
-        // SUPPRIMER BUFFER
-        Route::delete('demande/actor/{id}', 'ActorController@deleteDemande')->name('actor.deleteDemande');
+        Route::delete('admin/{id}', 'AdminController@destroy')->name('admin.destroy');
+
+        // SUPPRIMER ACTOR/BUFFER SUITE A DEMANDE "DELETE"
+        Route::delete('delete/actor/{id}', 'ActorController@deleteDemande')->name('actor.deleteDemande');
     });
 });
 

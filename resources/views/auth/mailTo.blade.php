@@ -57,32 +57,22 @@
 </head>
 
 <body style="background-color: #edf2f7; margin: 50px auto;">
-    {{-- <div class="email">
+    <div class="email">
         <div class="content-mail">
             <div class="img">
                 <img class="logo" src="{{ asset('img/logo2.png') }}" alt="Logo">
             </div>
             <div style="text-align: center;" class="text-blue-color">
             </div>
-            @if (isset($user))
-                <strong>Bonjour {{ $user->name }},</strong><br>
-                <p style="text-align: center;">Vous avez 5 minutes pour vous connecter</p>
-                <a class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getToken/' . $url . '/' . $user->id }}">Se
-                    connecter</a>
-            @else
-                <strong>Bonjour Administrateur : {{ $admin->firstname }},</strong><br>
-                <p style="text-align: center;">Vous avez 5 minutes pour vous connecter</p>
-                <a id="btnAdmin" class="btnSend" href="{{ ENV('VUE_APP_URL') . '/getTokenAdmin/' . $url . '/' . $admin->id }}">Se
-                    connecter</a>
-            @endif
+
+
+            <strong>Bonjour,</strong><br>
+
 
             <br><br><br>
+    </div>
+    </div>
 
-            <a style="text-decoration:none;text-align:right; font-style: italic; color : #274062; font-size : 13px"
-                href="https://www.frenchtechcotedazur.fr/">L'équipe French Tech</a>
-
-        </div>
-    </div> --}}
 </body>
 
 </html>
