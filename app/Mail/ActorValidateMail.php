@@ -29,9 +29,9 @@ class ActorValidateMail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mailTo.from.address'))
+        return $this->from(config('mailto.from.address'))
             ->subject('Actor Validate Send')
-            ->markdown('auth.mailTo')
+            ->markdown('auth.mailto')
             ->with($this->data);
     }
 }
