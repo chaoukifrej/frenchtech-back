@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actor;
 use App\Buffer;
+
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Mail\ActorValidateMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class ActorController extends Controller
@@ -51,8 +54,10 @@ class ActorController extends Controller
     public function store(Request $request, $data)
     {
 
-        $buffer = Buffer::find($request->id);
+
         try {
+            $buffer = Buffer::find($request->id);
+
             $newActor = Actor::create([
                 'logo' => $buffer->logo,
                 'name' => $buffer->name,
@@ -76,14 +81,26 @@ class ActorController extends Controller
                 'women_number' => $buffer->women_number,
                 'revenues' => $buffer->revenues,
             ]);
+
             if ($newActor) {
+
+                $newActor->save();
+
                 $email = $newActor->email;
 
-                //Mail::to($email)->send(new ActorValidateMail($data));
+                Mail::to($email)->send(new ActorValidateMail($data));
+                //$actor = Actor::where("email", "=", $email)->first();
+                //$data['data'] = $actor;
+
+                // $data['admin'] = $admin;
+                // Mail::to($admin->email)->send(new AdminLoginMail($data));
+
+                // $admin = Admin::where('id', Auth::user()->id)->first();
+                //Mail::to($admin)->send(new ActorValidateMail($data));
 
                 $buffer = Buffer::destroy($request->id);
 
-                return response()->json(["message" => "Buffer validate", $email], 200);
+                return response()->json(["message" => "Buffer validate"], 200);
             } else {
                 return response()->json(["message" => "Nothing finded"], 401);
             }
@@ -387,6 +404,118 @@ class ActorController extends Controller
             $buffer->delete();
             $actor->delete();
             return response()->json(["body" => "success"], 201);
+        } catch (\Throwable $th) {
+            return response()->json(["body" => ["error" => $th]], 401);
+        }
+    }
+
+    /**
+     * FUNCTION MODIFICATION SUITE A LA DEMANDE
+     */
+    public function updateDemande(Request $request)
+    {
+
+        try {
+            $buffer = Buffer::find($request->id);
+            $actor = Actor::find($buffer->actor_id, 'id')->first();
+
+
+            if (!isset($request->name)) {
+                $actor->name = $actor->name;
+            } else {
+                $actor->name = $buffer->name;
+            }
+            if (!isset($request->adress)) {
+                $actor->adress = $actor->adress;
+            } else {
+                $actor->adress = $buffer->adress;
+            }
+            if (!isset($request->postal_code)) {
+                $actor->postal_code = $actor->postal_code;
+            } else {
+                $actor->postal_code = $buffer->postal_code;
+            }
+            if (!isset($request->city)) {
+                $actor->city = $actor->city;
+            } else {
+                $actor->city = $buffer->city;
+            }
+            if (!isset($request->email)) {
+                $actor->email = $actor->email;
+            } else {
+                $actor->email = $buffer->email;
+            }
+            if (!isset($request->phone)) {
+                $actor->phone = $actor->phone;
+            } else {
+                $actor->phone = $buffer->phone;
+            }
+            if (!isset($request->category)) {
+                $actor->category = $actor->category;
+            } else {
+                $actor->category = $buffer->category;
+            }
+            if (!isset($request->associations)) {
+                $actor->associations = $actor->associations;
+            } else {
+                $actor->associations = $buffer->associations;
+            }
+            if (!isset($request->description)) {
+                $actor->description = $actor->description;
+            } else {
+                $actor->description = $buffer->description;
+            }
+            if (!isset($request->facebook)) {
+                $actor->facebook = $actor->facebook;
+            } else {
+                $actor->facebook = $buffer->facebook;
+            }
+            if (!isset($request->linkedin)) {
+                $actor->linkedin = $actor->linkedin;
+            } else {
+                $actor->linkedin = $buffer->linkedin;
+            }
+            if (!isset($request->twitter)) {
+                $actor->twitter = $actor->twitter;
+            } else {
+                $actor->twitter = $buffer->twitter;
+            }
+            if (!isset($request->website)) {
+                $actor->website = $actor->website;
+            } else {
+                $actor->website = $buffer->website;
+            }
+            if (!isset($request->activity_area)) {
+                $actor->activity_area = $actor->activity_area;
+            } else {
+                $actor->activity_area = $buffer->activity_area;
+            }
+            if (!isset($request->funds)) {
+                $actor->funds = $actor->funds;
+            } else {
+                $actor->funds = $buffer->funds;
+            }
+            if (!isset($request->employees_number)) {
+                $actor->employees_number = $actor->employees_number;
+            } else {
+                $actor->employees_number = $buffer->employees_number;
+            }
+            if (!isset($request->women_number)) {
+                $actor->women_number = $actor->women_number;
+            } else {
+                $actor->women_number = $buffer->women_number;
+            }
+            if (!isset($request->revenues)) {
+                $actor->revenues = $actor->revenues;
+            } else {
+                $actor->revenues = $buffer->revenues;
+            }
+
+            $actor->save();
+
+            $buffer->delete();
+
+            return response()->json(["reponse" => $actor]);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }
