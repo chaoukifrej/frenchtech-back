@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ActorsExport implements
+class ActorsExportPublic implements
     FromCollection,
     Responsable,
     ShouldAutoSize,
@@ -22,7 +22,7 @@ class ActorsExport implements
 {
     use Exportable;
 
-    private $fileName = "acteurs.xlsx";
+    private $fileName = "acteursPublic.xlsx";
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -33,7 +33,6 @@ class ActorsExport implements
     public function map($actor): array
     {
         return [
-            $actor->id,
             $actor->name,
             $actor->email,
             $actor->phone,
@@ -49,22 +48,14 @@ class ActorsExport implements
             $actor->twitter,
             $actor->website,
             $actor->activity_area,
-            $actor->funds,
-            $actor->employees_number,
-            $actor->jobs_available_number,
-            $actor->women_number,
-            $actor->revenues,
             $actor->logo,
             $actor->description,
-            $actor->created_at,
-            $actor->updated_at,
         ];
     }
 
     public function headings(): array
     {
         return [
-            '#',
             'Nom',
             'Email',
             'Telephone',
@@ -80,15 +71,8 @@ class ActorsExport implements
             'Twitter',
             'Site Internet',
             'Secteur d\'activité',
-            'Levées de fonds',
-            'Nombre employées',
-            'Nombre de postes disponibles',
-            'Nombre de femmes',
-            'Chiffre d\'affaires',
             'Logo',
             'Description',
-            'Date de création',
-            'Date de mise à jour',
         ];
     }
 

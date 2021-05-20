@@ -71,29 +71,29 @@ class BufferController extends Controller
             Validator::make(
                 $request->all(),
                 [
-                    'logo' => ['required', 'string'],
-                    'name' => ['required', 'string', 'max:64'],
-                    'adress' => ['required', 'string', 'max:64'],
-                    'postal_code' => ['required', 'integer', 'max:5'],
-                    'city' => ['required', 'string', 'max:64'],
+                    'logo' => ['string'],
+                    'name' => ['string', 'max:64'],
+                    'adress' => ['string', 'max:64'],
+                    'postal_code' => ['integer', 'max:5'],
+                    'city' => ['string', 'max:64'],
 
-                    'email' => ['required', 'string', 'email', 'max:64', 'unique:actors'],
-                    'phone' => ['required', 'string', 'max:20'],
-                    'category' => ['required', 'string', 'max:64'],
+                    'email' => ['string', 'email', 'max:64', 'unique:actors'],
+                    'phone' => ['string', 'max:20'],
+                    'category' => ['string', 'max:64'],
                     'associations' => ['nullable', 'string', 'max:64'],
-                    'description' => ['required', 'string'],
+                    'description' => ['string'],
 
                     'facebook' => ['nullable', 'string'],
                     'twitter' => ['nullable', 'string'],
                     'linkedin' => ['nullable', 'string'],
                     'website' => ['nullable', 'string'],
 
-                    'activity_area' => ['required', 'string', 'max:64'],
-                    'funds' => ['required', 'numeric'],
-                    'employees_number' => ['required', 'integer'],
-                    'jobs_available_number' => ['required', 'integer'],
-                    'women_number' => ['required', 'integer'],
-                    'revenues' => ['required', 'numeric'],
+                    'activity_area' => ['string', 'max:64'],
+                    'funds' => ['numeric'],
+                    'employees_number' => ['integer'],
+                    'jobs_available_number' => ['integer'],
+                    'women_number' => ['integer'],
+                    'revenues' => ['numeric'],
 
                 ],
             )->validate();
@@ -191,7 +191,7 @@ class BufferController extends Controller
 
             $buffer->save();
 
-            return response()->json(['message' => $buffer], 201);
+            return response()->json(['success' => ["true", $buffer]], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th], 401);
         }

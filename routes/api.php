@@ -35,6 +35,9 @@ Route::prefix('GET')->group(function () {
 
     //DEMANDE DE SUPPRESSION
     Route::get('delete/demand/{id}', 'ActorController@sendDelete')->name('actor.sendDelete');
+
+    //DEMANDE DE MODIFICATION
+    Route::get('update/demand/{id}', 'ActorController@sendUpdate')->name('actor.sendUpdate');
 });
 
 //!ROUTES EN POST
@@ -59,6 +62,9 @@ Route::prefix('admin')->group(function () {
 
         //GET LOGOUT
         Route::get('logout', 'Auth\LoginController@logoutAdmin')->name('login.logoutAdmin');
+
+        //GET ALL ACTORS WITH ALL INFOS
+        Route::get('actors', 'ActorController@getAllInfosActors')->name('actor.getAllInfosActors')->middleware('auth:admin');
     });
 
     //?ROUTES EN POST
@@ -71,13 +77,16 @@ Route::prefix('admin')->group(function () {
     Route::prefix('PUT')->group(function () {
         //MODIFIER BUFFER
         Route::put('buffer/{id}', 'BufferController@update')->name('buffer.update');
+
+        //MODIFIER ACTORS
+        Route::put('actor/{id}', 'ActorController@update')->name('actor.update');
     });
 
     //?ROUTES EN DELETE
     Route::prefix('DELETE')->group(function () {
 
         // SUPPRIMER ACTOR
-        Route::delete('actor/{id}', 'ActorController@destroy')->name('actor.destroy');
+        Route::delete('actor/{id}', 'ActorController@destroy')->name('actor.destroy')->middleware('auth:admin');
 
         // SUPPRIMER BUFFER
         Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
@@ -91,4 +100,6 @@ Route::prefix('admin')->group(function () {
 //!ROUTES EXCEL
 Route::prefix('excel')->group(function () {
     Route::get('actors/export', 'ActorsExportController@export');
+    Route::get('actors/exportPublic', 'ActorsExportController@exportPublic');
+    Route::get('actors/exportPrivate', 'ActorsExportController@exportPrivate');
 });

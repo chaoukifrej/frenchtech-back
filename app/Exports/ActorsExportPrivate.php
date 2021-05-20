@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ActorsExport implements
+class ActorsExportPrivate implements
     FromCollection,
     Responsable,
     ShouldAutoSize,
