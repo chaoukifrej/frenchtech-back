@@ -7,6 +7,11 @@ use App\Buffer;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ActorValidateMail;
+use App\Http\Controllers\Controller;
+use Illuminate\Mail\Mailable;
+
 
 class ActorController extends Controller
 {
@@ -34,7 +39,7 @@ class ActorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $data)
     {
 
         $buffer = Buffer::find($request->id);
@@ -63,7 +68,11 @@ class ActorController extends Controller
                 'revenues' => $buffer->revenues,
             ]);
             if ($newActor) {
+                $send = Actor::find($request->id);
+                Mail::to($send)->send(new ActorValidateMail($data));
+
                 $buffer = Buffer::destroy($request->id);
+
                 return response()->json(["message" => "delete"], 200);
             } else {
                 return response()->json(["message" => "Aucun acteur cree"], 401);
