@@ -31,6 +31,17 @@ class ActorController extends Controller
         return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
+    public function getAllInfosActors()
+    {
+        try {
+            $actors = Actor::all();
+            $actors->makeVisible(['funds', 'employees_number', 'jobs_available_number', 'women_number', 'revenues',]);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['actors' => $actors]], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -62,6 +62,9 @@ Route::prefix('admin')->group(function () {
 
         //GET LOGOUT
         Route::get('logout', 'Auth\LoginController@logoutAdmin')->name('login.logoutAdmin');
+
+        //GET ALL ACTORS WITH ALL INFOS
+        Route::get('actors', 'ActorController@getAllInfosActors')->name('actor.getAllInfosActors')->middleware('auth:admin');
     });
 
     //?ROUTES EN POST
@@ -101,4 +104,6 @@ Route::prefix('admin')->group(function () {
 //!ROUTES EXCEL
 Route::prefix('excel')->group(function () {
     Route::get('actors/export', 'ActorsExportController@export');
+    Route::get('actors/exportPublic', 'ActorsExportController@exportPublic');
+    Route::get('actors/exportPrivate', 'ActorsExportController@exportPrivate');
 });
