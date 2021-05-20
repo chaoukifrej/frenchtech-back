@@ -367,7 +367,10 @@ class ActorController extends Controller
                 'women_number' => $actor->women_number,
                 'revenues' => $actor->revenues,
             ]);
-            return response()->json(["body" => ["Message" => "succès", $send]], 201);
+
+            if ($send) {
+                return response()->json(["body" => ["Message" => "succès", $send]], 201);
+            }
         } catch (\Throwable $th) {
             return response()->json(["Body" => ["Message" => $th]], 401);
         }

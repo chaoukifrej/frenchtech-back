@@ -71,10 +71,14 @@ Route::prefix('admin')->group(function () {
     Route::prefix('POST')->group(function () {
         //VALIDATE BUFFER --> ACTOR
         Route::post('validate/{id}', 'ActorController@store')->name('validate.store');
+
+        // CREATION ADMIN
+        Route::post('create', 'AdminController@store')->name('create.store');
     });
 
     //?ROUTES EN PUT
     Route::prefix('PUT')->group(function () {
+
         //MODIFIER BUFFER
         Route::put('buffer/{id}', 'BufferController@update')->name('buffer.update');
 
