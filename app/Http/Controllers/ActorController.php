@@ -146,7 +146,7 @@ class ActorController extends Controller
         try {
             $actors = Actor::all();
             $deletActor = Actor::find($request->id)->delete();
-            return response()->json(['body' => ['Buffer deleted' => $deletActor, "Buffers" => $actors]], 200);
+            return response()->json(['body' => ['Actor deleted' => $deletActor, "Actor" => $actors]], 200);
         } catch (\Throwable $th) {
             return response()->json(['body' => $th], 401);
         }
