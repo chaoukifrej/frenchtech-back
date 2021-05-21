@@ -16,7 +16,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $admins = Admin::all();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['admins' => $admins]], 200);
     }
 
     /**
@@ -101,10 +106,10 @@ class AdminController extends Controller
             $a = Admin::find($request->id);
 
             if ($a) {
-                if ($a->id == 6) {
+                if ($a->id == 1) {
                     return response()->json(["body" => "L'administrateur principale ne peut etre supprime"], 200);
                 }
-                if ($a->id != 6) {
+                if ($a->id != 1) {
 
                     $a->delete();
                     return response()->json(["body" => "L'administateur est delete"], 200);
