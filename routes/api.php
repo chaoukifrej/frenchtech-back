@@ -54,6 +54,10 @@ Route::prefix('POST')->group(function () {
 Route::prefix('admin')->group(function () {
     //?ROUTES EN GET
     Route::prefix('GET')->group(function () {
+
+        // GET ALL ADMINS
+        Route::get('admins', 'AdminController@index')->name('admin.index');
+
         //GET CONFIRM LOGIN
         Route::get('login/{ml}/{id}', 'Auth\LoginController@confirmLoginAdmin')->name('login.confirmLoginAdmin');
 
