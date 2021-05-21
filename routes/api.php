@@ -111,4 +111,7 @@ Route::prefix('excel')->group(function () {
     Route::get('actors/export', 'ActorsExportController@export');
     Route::get('actors/exportPublic', 'ActorsExportController@exportPublic');
     Route::get('actors/exportPrivate', 'ActorsExportController@exportPrivate');
+    Route::get('buffers/exportRegister', 'BuffersExportController@exportRegister');
+    Route::get('buffers/exportModify', 'BuffersExportController@exportModify');
+    Route::get('buffers/exportDelete', 'BuffersExportController@exportDelete');
 });
