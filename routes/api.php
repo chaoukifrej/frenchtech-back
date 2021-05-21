@@ -89,6 +89,9 @@ Route::prefix('admin')->group(function () {
         //MODIFIER ACTORS
         Route::put('actor/{id}', 'ActorController@update')->name('actor.update');
 
+        //MODIFIER ADMIN
+        Route::put('admin/{id}', 'AdminController@update')->name('admin.update');
+
         // MODIFICATION ACTOR SUITE A DEMANDE
         Route::put('update/actor/{id}', 'ActorController@updateDemande')->name('actor.updateDemande');
     });
@@ -102,6 +105,7 @@ Route::prefix('admin')->group(function () {
         // SUPPRIME DIRECT -> BUFFER
         Route::delete('buffer/{id}', 'BufferController@destroy')->name('buffer.destroy');
 
+        // SUPPRIME DIRECT -> ADMIN
         Route::delete('admin/{id}', 'AdminController@destroy')->name('admin.destroy');
 
         // SUPPRIMER ACTOR/BUFFER SUITE A DEMANDE "DELETE"
