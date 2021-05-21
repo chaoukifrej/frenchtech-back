@@ -115,3 +115,8 @@ Route::prefix('excel')->group(function () {
     Route::get('buffers/exportModify', 'BuffersExportController@exportModify');
     Route::get('buffers/exportDelete', 'BuffersExportController@exportDelete');
 });
+
+
+//!Routes verif si connecté
+Route::get('checkActor', 'Auth\VerificationController@checkActor')->middleware("auth:api");
+Route::get('checkAdmin', 'Auth\VerificationController@checkAdmin')->middleware("auth:admin");
