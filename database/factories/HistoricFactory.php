@@ -11,6 +11,7 @@ $factory->define(Historic::class, function (Faker $faker) {
         'total_funds' => $faker->randomFloat(2, 1, 99),
         'total_jobs_available' => $faker->randomNumber(3),
         'total_women_number' => $faker->randomNumber(3),
+        'total_employees_number' => $faker->randomNumber(4, 5),
         'total_revenues' => $faker->randomFloat(2, 1, 99),
     ];
 });
