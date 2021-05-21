@@ -21,6 +21,7 @@ class CreateHistoricsTable extends Migration
             $table->float('total_funds')->nullable();
             $table->integer('total_jobs_available')->nullable();
             $table->integer('total_women_number')->nullable();
+            $table->integer('total_employees_number')->nullable();
             $table->float('total_revenues')->nullable();
         });
     }
