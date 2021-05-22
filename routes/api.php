@@ -126,7 +126,6 @@ Route::prefix('excel')->group(function () {
 
     //IMPORTS
     Route::post('actors/import', 'ActorsImportController@store');
-    Route::post('actors/importMe', 'ActorsImportController@storeMe');
 });
 
 
