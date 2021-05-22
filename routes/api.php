@@ -112,12 +112,17 @@ Route::prefix('admin')->group(function () {
 
 //!ROUTES EXCEL
 Route::prefix('excel')->group(function () {
+    //EXPORTS
     Route::get('actors/export', 'ActorsExportController@export');
     Route::get('actors/exportPublic', 'ActorsExportController@exportPublic');
     Route::get('actors/exportPrivate', 'ActorsExportController@exportPrivate');
     Route::get('buffers/exportRegister', 'BuffersExportController@exportRegister');
     Route::get('buffers/exportModify', 'BuffersExportController@exportModify');
     Route::get('buffers/exportDelete', 'BuffersExportController@exportDelete');
+
+    //IMPORTS
+    Route::post('actors/import', 'ActorsImportController@store');
+    Route::post('actors/importMe', 'ActorsImportController@storeMe');
 });
 
 
