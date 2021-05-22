@@ -91,7 +91,22 @@ class AdminController extends Controller
      */
     public function update(Request $request)
     {
-        //
+        // $admin = Admin::find($request->id);
+
+        // Validator::make($request->all(),
+        // [
+        //     'firstname' => ['string'],
+        //     'lastname' => ['string'] ,
+        //     'email' => ['email']
+        // ])->validate();
+
+        // if (!isset($request->firstname)){
+        //     $admin->firstname =  $admin->firstname
+        // }else{
+
+
+
+        // $admin->save();
     }
 
     /**
