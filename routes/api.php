@@ -35,9 +35,6 @@ Route::prefix('GET')->group(function () {
 
     //DEMANDE DE SUPPRESSION
     Route::get('delete/demand/{id}', 'ActorController@sendDelete')->name('actor.sendDelete');
-
-    //DEMANDE DE MODIFICATION
-    Route::get('update/demand/{id}', 'ActorController@sendUpdate')->name('actor.sendUpdate');
 });
 
 //!ROUTES EN POST
@@ -48,7 +45,13 @@ Route::prefix('POST')->group(function () {
 
     //REGISTER -> BUFFER
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
+
+    //DEMANDE DE MODIFICATION
+    Route::post('update/demand/{id}', 'ActorController@sendUpdate')->name('actor.sendUpdate');
 });
+
+//MODIFIER ACTOR CONNECTED
+Route::put('PUT/actor', 'ActorController@updateAuth')->name('actor.update')->middleware('auth:api');
 
 //!ROUTES ADMIN
 Route::prefix('admin')->group(function () {
@@ -86,7 +89,7 @@ Route::prefix('admin')->group(function () {
         //MODIFIER BUFFER
         Route::put('buffer/{id}', 'BufferController@update')->name('buffer.update');
 
-        //MODIFIER ACTORS
+        //MODIFIER ACTOR
         Route::put('actor/{id}', 'ActorController@update')->name('actor.update');
 
         //MODIFIER ADMIN

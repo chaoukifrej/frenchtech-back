@@ -361,29 +361,31 @@ class ActorController extends Controller
             $send = Buffer::create([
                 'actor_id' => $actor->id,
                 'type_of_demand' => 'update',
-                'name' => $actor->name,
-                'email' => $actor->email,
-                'logo' => $actor->logo,
-                'adress' => $actor->adress,
-                'postal_code' => $actor->postal_code,
-                'city' => $actor->city,
-                'longitude' => $actor->longitude,
-                'latitude' => $actor->latitude,
-                'phone' => $actor->phone,
-                'category' => $actor->category,
-                'associations' => $actor->associations,
-                'description' => $actor->description,
-                'facebook' => $actor->facebook,
-                'twitter' => $actor->twitter,
-                'linkedin' => $actor->linkedin,
-                'website' => $actor->website,
-                'activity_area' => $actor->activity_area,
-                'funds' => $actor->funds,
-                'employees_number' => $actor->employees_number,
-                'jobs_available_number' => $actor->jobs_available_number,
-                'women_number' => $actor->women_number,
-                'revenues' => $actor->revenues,
+                'logo' => $request->logo,
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'postal_postal' => $request->postal_code,
+                'city' => $request->city,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'category' => $request->category,
+                'associations' => $request->associations,
+                'descriptions' => $request->description,
+                'facebook' => $request->facebook,
+                'linkedin' => $request->linkedin,
+                'twitter' => $request->twitter,
+                'website' => $request->website,
+                'activity_area' => $request->activity_area,
+                'funds' => $request->funds,
+                'employees_number' => $request->employees_number,
+                'women_number' => $request->women_number,
+                'revenues' => $request->revenues
+
+
             ]);
+
+
+
 
             if ($send) {
                 return response()->json(["body" => ["Message" => "succès", $send]], 201);
