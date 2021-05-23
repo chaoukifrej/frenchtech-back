@@ -19,18 +19,4 @@ class ActorsImportController extends Controller
         Excel::import(new ActorsImport, $file);
         return response()->json(['status' => 'success'], 200);
     }
-    /*
-    public function test()
-    {
-
-        $adress = '324 boulevard de la madeleine Nice 06000';
-        $url = 'https://api-adresse.data.gouv.fr/search/?q=' . $adress;
-        $client = new \GuzzleHttp\Client();
-        $request = $client->get($url);
-        $response = $request->getBody();
-        $response =  json_decode($response);
-        echo $response->features[0]->geometry->coordinates[1];
-        //echo $response->features[0]->properties->y;
-        echo json_encode($response);
-    } */
 }
