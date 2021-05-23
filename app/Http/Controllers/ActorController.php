@@ -293,143 +293,6 @@ class ActorController extends Controller
         }
     }
 
-    public function updateAuth(Request $request, Actor $actor)
-    {
-
-        try {
-
-            $actor = Actor::find($request->id);
-
-            // Filtrage et validation de la modification
-            Validator::make(
-                $request->all(),
-                [
-                    'logo' => ['string'],
-                    'name' => ['string', 'max:64'],
-                    'adress' => ['string', 'max:64'],
-                    'postal_code' => ['integer', 'max:5'],
-                    'city' => ['string', 'max:64'],
-
-                    'email' => ['string', 'email', 'max:64', 'unique:actors'],
-                    'phone' => ['string', 'max:20'],
-                    'category' => ['string', 'max:64'],
-                    'associations' => ['nullable', 'string', 'max:64'],
-                    'description' => ['string'],
-
-                    'facebook' => ['nullable', 'string'],
-                    'twitter' => ['nullable', 'string'],
-                    'linkedin' => ['nullable', 'string'],
-                    'website' => ['nullable', 'string'],
-
-                    'activity_area' => ['string', 'max:64'],
-                    'funds' => ['numeric'],
-                    'employees_number' => ['integer'],
-                    'jobs_available_number' => ['integer'],
-                    'women_number' => ['integer'],
-                    'revenues' => ['numeric'],
-
-                ],
-            )->validate();
-
-            if (!isset($request->name)) {
-                $actor->name = $actor->name;
-            } else {
-                $actor->name = $request->name;
-            }
-            if (!isset($request->adress)) {
-                $actor->adress = $actor->adress;
-            } else {
-                $actor->adress = $request->adress;
-            }
-            if (!isset($request->postal_code)) {
-                $actor->postal_code = $actor->postal_code;
-            } else {
-                $actor->postal_code = $request->postal_code;
-            }
-            if (!isset($request->city)) {
-                $actor->city = $actor->city;
-            } else {
-                $actor->city = $request->city;
-            }
-            if (!isset($request->email)) {
-                $actor->email = $actor->email;
-            } else {
-                $actor->email = $request->email;
-            }
-            if (!isset($request->phone)) {
-                $actor->phone = $actor->phone;
-            } else {
-                $actor->phone = $request->phone;
-            }
-            if (!isset($request->category)) {
-                $actor->category = $actor->category;
-            } else {
-                $actor->category = $request->category;
-            }
-            if (!isset($request->associations)) {
-                $actor->associations = $actor->associations;
-            } else {
-                $actor->associations = $request->associations;
-            }
-            if (!isset($request->description)) {
-                $actor->description = $actor->description;
-            } else {
-                $actor->description = $request->description;
-            }
-            if (!isset($request->facebook)) {
-                $actor->facebook = $actor->facebook;
-            } else {
-                $actor->facebook = $request->facebook;
-            }
-            if (!isset($request->linkedin)) {
-                $actor->linkedin = $actor->linkedin;
-            } else {
-                $actor->linkedin = $request->linkedin;
-            }
-            if (!isset($request->twitter)) {
-                $actor->twitter = $actor->twitter;
-            } else {
-                $actor->twitter = $request->twitter;
-            }
-            if (!isset($request->website)) {
-                $actor->website = $actor->website;
-            } else {
-                $actor->website = $request->website;
-            }
-            if (!isset($request->activity_area)) {
-                $actor->activity_area = $actor->activity_area;
-            } else {
-                $actor->activity_area = $request->activity_area;
-            }
-            if (!isset($request->funds)) {
-                $actor->funds = $actor->funds;
-            } else {
-                $actor->funds = $request->funds;
-            }
-            if (!isset($request->employees_number)) {
-                $actor->employees_number = $actor->employees_number;
-            } else {
-                $actor->employees_number = $request->employees_number;
-            }
-            if (!isset($request->women_number)) {
-                $actor->women_number = $actor->women_number;
-            } else {
-                $actor->women_number = $request->women_number;
-            }
-            if (!isset($request->revenues)) {
-                $actor->revenues = $actor->revenues;
-            } else {
-                $actor->revenues = $request->revenues;
-            }
-
-            $actor->save();
-            return response()->json(["success" => ["true " => $actor]], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['message' => $th], 401);
-        }
-    }
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -494,34 +357,35 @@ class ActorController extends Controller
     {
 
         try {
-            $id = Auth::user()->id;
-            $actor = Actor::find($id);
+            $actor = Actor::find($request->id);
             $send = Buffer::create([
                 'actor_id' => $actor->id,
                 'type_of_demand' => 'update',
-                'name' => $actor->name,
-                'email' => $actor->email,
-                'logo' => $actor->logo,
-                'adress' => $actor->adress,
-                'postal_code' => $actor->postal_code,
-                'city' => $actor->city,
-                'longitude' => $actor->longitude,
-                'latitude' => $actor->latitude,
-                'phone' => $actor->phone,
-                'category' => $actor->category,
-                'associations' => $actor->associations,
-                'description' => $actor->description,
-                'facebook' => $actor->facebook,
-                'twitter' => $actor->twitter,
-                'linkedin' => $actor->linkedin,
-                'website' => $actor->website,
-                'activity_area' => $actor->activity_area,
-                'funds' => $actor->funds,
-                'employees_number' => $actor->employees_number,
-                'jobs_available_number' => $actor->jobs_available_number,
-                'women_number' => $actor->women_number,
-                'revenues' => $actor->revenues,
+                'logo' => $request->logo,
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'postal_postal' => $request->postal_code,
+                'city' => $request->city,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'category' => $request->category,
+                'associations' => $request->associations,
+                'descriptions' => $request->description,
+                'facebook' => $request->facebook,
+                'linkedin' => $request->linkedin,
+                'twitter' => $request->twitter,
+                'website' => $request->website,
+                'activity_area' => $request->activity_area,
+                'funds' => $request->funds,
+                'employees_number' => $request->employees_number,
+                'women_number' => $request->women_number,
+                'revenues' => $request->revenues
+
+
             ]);
+
+
+
 
             if ($send) {
                 return response()->json(["body" => ["Message" => "succès", $send]], 201);
