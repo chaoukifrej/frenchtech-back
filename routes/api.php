@@ -128,8 +128,8 @@ Route::prefix('excel')->group(function () {
     Route::get('buffers/exportDelete', 'BuffersExportController@exportDelete');
 
     //IMPORTS
+    Route::get('actors/template', 'ActorsImportController@template');
     Route::post('actors/import', 'ActorsImportController@store');
-    Route::post('actors/importMe', 'ActorsImportController@storeMe');
 });
 
 
