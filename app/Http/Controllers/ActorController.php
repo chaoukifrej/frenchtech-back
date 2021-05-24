@@ -313,13 +313,15 @@ class ActorController extends Controller
     /**
      * SEND DELETE DEMANDE
      */
-    public function sendDelete(Request $request)
+    public function sendDelete()
     {
 
         try {
-            $actor = Actor::find($request->id);
+            $id = Auth::user()->id;
+            $actor = Actor::find($id);
+
             $send = Buffer::create([
-                'actor_id' => $actor->id,
+                'actor_id' => $id,
                 'type_of_demand' => 'delete',
                 'name' => $actor->name,
                 'email' => $actor->email,
@@ -344,7 +346,7 @@ class ActorController extends Controller
                 'women_number' => $actor->women_number,
                 'revenues' => $actor->revenues,
             ]);
-            return response()->json(["body" => ["Message" => "succès"]], 201);
+            return response()->json(["body" => ["Message" => "succès", $send]], 201);
         } catch (\Throwable $th) {
             return response()->json(["Body" => ["Message" => $th]], 401);
         }
