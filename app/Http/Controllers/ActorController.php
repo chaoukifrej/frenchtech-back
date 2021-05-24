@@ -364,28 +364,25 @@ class ActorController extends Controller
                 'logo' => $request->logo,
                 'name' => $request->name,
                 'adress' => $request->adress,
-                'postal_postal' => $request->postal_code,
+                'postal_code' => $request->postal_code,
                 'city' => $request->city,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'category' => $request->category,
                 'associations' => $request->associations,
-                'descriptions' => $request->description,
+                'description' => $request->description,
                 'facebook' => $request->facebook,
                 'linkedin' => $request->linkedin,
                 'twitter' => $request->twitter,
                 'website' => $request->website,
                 'activity_area' => $request->activity_area,
                 'funds' => $request->funds,
+                'jobs_available_number' => $request->jobs_available_number,
                 'employees_number' => $request->employees_number,
                 'women_number' => $request->women_number,
                 'revenues' => $request->revenues
 
-
             ]);
-
-
-
 
             if ($send) {
                 return response()->json(["body" => ["Message" => "succès", $send]], 201);
@@ -418,106 +415,28 @@ class ActorController extends Controller
     {
 
         try {
+
             $buffer = Buffer::find($request->id);
-            $actor = Actor::find($buffer->actor_id, 'id')->first();
+            $actor = Actor::where('id', '=', $buffer->actor_id)->first();
+            $test = collect([]);
 
-
-            if (!isset($request->name)) {
-                $actor->name = $actor->name;
-            } else {
-                $actor->name = $buffer->name;
-            }
-            if (!isset($request->adress)) {
-                $actor->adress = $actor->adress;
-            } else {
-                $actor->adress = $buffer->adress;
-            }
-            if (!isset($request->postal_code)) {
-                $actor->postal_code = $actor->postal_code;
-            } else {
-                $actor->postal_code = $buffer->postal_code;
-            }
-            if (!isset($request->city)) {
-                $actor->city = $actor->city;
-            } else {
-                $actor->city = $buffer->city;
-            }
-            if (!isset($request->email)) {
-                $actor->email = $actor->email;
-            } else {
-                $actor->email = $buffer->email;
-            }
-            if (!isset($request->phone)) {
-                $actor->phone = $actor->phone;
-            } else {
-                $actor->phone = $buffer->phone;
-            }
-            if (!isset($request->category)) {
-                $actor->category = $actor->category;
-            } else {
-                $actor->category = $buffer->category;
-            }
-            if (!isset($request->associations)) {
-                $actor->associations = $actor->associations;
-            } else {
-                $actor->associations = $buffer->associations;
-            }
-            if (!isset($request->description)) {
-                $actor->description = $actor->description;
-            } else {
-                $actor->description = $buffer->description;
-            }
-            if (!isset($request->facebook)) {
-                $actor->facebook = $actor->facebook;
-            } else {
-                $actor->facebook = $buffer->facebook;
-            }
-            if (!isset($request->linkedin)) {
-                $actor->linkedin = $actor->linkedin;
-            } else {
-                $actor->linkedin = $buffer->linkedin;
-            }
-            if (!isset($request->twitter)) {
-                $actor->twitter = $actor->twitter;
-            } else {
-                $actor->twitter = $buffer->twitter;
-            }
-            if (!isset($request->website)) {
-                $actor->website = $actor->website;
-            } else {
-                $actor->website = $buffer->website;
-            }
-            if (!isset($request->activity_area)) {
-                $actor->activity_area = $actor->activity_area;
-            } else {
-                $actor->activity_area = $buffer->activity_area;
-            }
-            if (!isset($request->funds)) {
-                $actor->funds = $actor->funds;
-            } else {
-                $actor->funds = $buffer->funds;
-            }
-            if (!isset($request->employees_number)) {
-                $actor->employees_number = $actor->employees_number;
-            } else {
-                $actor->employees_number = $buffer->employees_number;
-            }
-            if (!isset($request->women_number)) {
-                $actor->women_number = $actor->women_number;
-            } else {
-                $actor->women_number = $buffer->women_number;
-            }
-            if (!isset($request->revenues)) {
-                $actor->revenues = $actor->revenues;
-            } else {
-                $actor->revenues = $buffer->revenues;
+            if ($buffer->name != $actor->name) {
+                $test->push($buffer->name . " " . $actor->name);
             }
 
-            $actor->save();
+            if ($buffer->email != $actor->email) {
+                $test->push($buffer->email . " " . $actor->email);
+            }
 
-            $buffer->delete();
 
-            return response()->json(["reponse" => $actor]);
+
+
+
+            // $actor->save();
+
+            // $buffer->delete();
+
+            return response()->json(["body" => $test], 201);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }
