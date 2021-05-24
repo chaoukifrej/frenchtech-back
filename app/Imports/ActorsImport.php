@@ -64,7 +64,7 @@ class ActorsImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidat
             '*.logo' => ['string'],
             '*.name' => ['string', 'max:64'],
             '*.adress' => ['string', 'max:64'],
-            '*.postal_code' => ['integer', 'max:5'],
+            '*.postal_code' => ['integer', 'max:5', 'min:5'],
             '*.city' => ['string', 'max:64'],
             '*.email' => ['string', 'email', 'max:64', 'unique:actors'],
             '*.phone' => ['string', 'max:20'],
