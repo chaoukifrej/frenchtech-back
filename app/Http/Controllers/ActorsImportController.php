@@ -16,7 +16,14 @@ class ActorsImportController extends Controller
     public function store(Request $request)
     {
         $file = $request->file('excel')->storeAs('excel', "excel.xlsx", 'local');
-        Excel::import(new ActorsImport, $file);
-        return response()->json(['status' => 'success'], 200);
+        //Excel::import(new ActorsImport, $file);
+        $import = new ActorsImport;
+        $import->import($file);
+
+        if ($import->failures()->isNotEmpty()) {
+            return response()->json(['status' => $import->failures()], 206);
+        } else {
+            return response()->json(['status' => "success"], 200);
+        }
     }
 }
