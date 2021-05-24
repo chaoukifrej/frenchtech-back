@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Imports\ActorsImport;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ActorsImportController extends Controller
 {
@@ -16,7 +15,14 @@ class ActorsImportController extends Controller
     public function store(Request $request)
     {
         $file = $request->file('excel')->storeAs('excel', "excel.xlsx", 'local');
-        Excel::import(new ActorsImport, $file);
-        return response()->json(['status' => 'success'], 200);
+        $import = new ActorsImport;
+        $import->import($file);
+
+
+        if ($import->failures()->isNotEmpty() || $import->errors()->isNotEmpty()) {
+            return response()->json(['errors' => $import->failures(), 'errorsSQL' => $import->errors()], 206);
+        } else {
+            return response()->json(['status' => "success"], 200);
+        }
     }
 }
