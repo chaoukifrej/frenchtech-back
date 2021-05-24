@@ -21,7 +21,7 @@ class ActorsImportController extends Controller
         $import->import($file);
 
         if ($import->failures()->isNotEmpty()) {
-            return response()->json(['status' => $import->failures()], 206);
+            return response()->json(['errors' => $import->failures()], 206);
         } else {
             return response()->json(['status' => "success"], 200);
         }
