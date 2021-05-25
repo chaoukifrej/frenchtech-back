@@ -34,6 +34,16 @@ class ActorController extends Controller
         return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
+    public function bufferWithId(Request $request)
+    {
+        try {
+            $buffer = Buffer::find($request->id);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['actor' => $buffer]], 200);
+    }
+
     public function getAllInfosActors()
     {
         try {
@@ -359,16 +369,23 @@ class ActorController extends Controller
     {
 
         try {
-            $image_64 = $request->logo; //Base64
-            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
-            $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
-            $image = str_replace($replace, '', $image_64);
-            $image = str_replace(' ', '+', $image);
-            $imageName = \Str::random(10) . '.' . $extension; //nom
-            \Storage::disk('public')->put($imageName, base64_decode($image));
-            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
-
             $id = Auth::user()->id;
+            $actor = Actor::find($id);
+            if (!empty($request->logo)) {
+                $image_64 = $request->logo; //Base64
+                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+                $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+                $image = str_replace($replace, '', $image_64);
+                $image = str_replace(' ', '+', $image);
+                $imageName = \Str::random(10) . '.' . $extension; //nom
+                \Storage::disk('public')->put($imageName, base64_decode($image));
+                $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
+            } else {
+                $LogoUrl = $actor->logo;
+            }
+
+
+
 
             $send = Buffer::create([
                 'actor_id' => $id,
@@ -430,7 +447,6 @@ class ActorController extends Controller
         try {
             $buffer = Buffer::find($request->id);
             $actor = Actor::find($buffer->actor_id, 'id')->first();
-
 
             if (!isset($request->name)) {
                 $actor->name = $actor->name;
