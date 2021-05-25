@@ -83,8 +83,6 @@ class BufferController extends Controller
         try {
             $buffer = Buffer::find($request->id);
 
-<<<<<<< HEAD
-=======
             $request->validate([
                 'logo' => ['string'],
                 'name' => ['string', 'max:64'],
@@ -112,7 +110,6 @@ class BufferController extends Controller
             ]);
 
 
->>>>>>> 5d6a9dc221f37a4482938523a1a318be4ca18254
             if (!isset($request->name)) {
                 $buffer->name = $buffer->name;
             } else {
