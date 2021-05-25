@@ -75,7 +75,7 @@ class ActorController extends Controller
                 'postal_code' => $buffer->postal_code,
                 'city' => $buffer->city,
                 'longitude' => $buffer->longitude,
-                'latitude' => $buffer,
+                'latitude' => $buffer->latitude,
                 'email' => $buffer->email,
                 'facebook' => $buffer->facebook,
                 'linkedin' => $buffer->linkedin,
@@ -95,18 +95,6 @@ class ActorController extends Controller
             if ($newActor) {
 
                 $newActor->save();
-
-                $email = $newActor->email;
-
-                Mail::to($email)->send(new ActorValidateMail($data));
-                //$actor = Actor::where("email", "=", $email)->first();
-                //$data['data'] = $actor;
-
-                // $data['admin'] = $admin;
-                // Mail::to($admin->email)->send(new AdminLoginMail($data));
-
-                // $admin = Admin::where('id', Auth::user()->id)->first();
-                //Mail::to($admin)->send(new ActorValidateMail($data));
 
                 $buffer = Buffer::destroy($request->id);
 
@@ -297,7 +285,7 @@ class ActorController extends Controller
             }
 
             $actor->save();
-            return response()->json(["success" => ["true " => $actor]], 200);
+            return response()->json(["body" => $actor], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th], 401);
         }
@@ -406,6 +394,7 @@ class ActorController extends Controller
                 'website' => $request->website,
                 'activity_area' => $request->activity_area,
                 'funds' => $request->funds,
+                'jobs_available_number' => $request->jobs_available_number,
                 'employees_number' => $request->employees_number,
                 'women_number' => $request->women_number,
                 'revenues' => $request->revenues,
@@ -445,6 +434,7 @@ class ActorController extends Controller
     {
 
         try {
+<<<<<<< HEAD
             $buffer = Buffer::find($request->id);
             $actor = Actor::find($buffer->actor_id, 'id')->first();
 
@@ -538,12 +528,14 @@ class ActorController extends Controller
             } else {
                 $actor->revenues = $buffer->revenues;
             }
+=======
+>>>>>>> f00f8168f096a394c76c03130932d86e256d0e1c
 
-            $actor->save();
+            $buffer = Buffer::find($request->id);
+            $actor = Actor::where('id', '=', $buffer->actor_id)->first();
 
-            $buffer->delete();
 
-            return response()->json(["reponse" => $actor]);
+            return response()->json(["body" => $buffer, $actor], 201);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }

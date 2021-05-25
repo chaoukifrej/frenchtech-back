@@ -75,6 +75,9 @@ Route::prefix('admin')->group(function () {
 
         //GET ALL ACTORS WITH ALL INFOS
         Route::get('actors', 'ActorController@getAllInfosActors')->name('actor.getAllInfosActors')->middleware('auth:admin');
+
+        //Récupération toutes les demandes de modifications
+        Route::get('update/demande', 'BufferController@updateDemande');
     });
 
     //?ROUTES EN POST

@@ -20,9 +20,24 @@ class BufferController extends Controller
         } catch (\Throwable $th) {
             return response()->json(["message" => $th], 401);
         }
-        return response()->json(['body' => ['buffers' => $buffers]], 200);
+        return response()->json(['body' => ['buffers' =>  $buffers]], 200);
     }
 
+    /**
+     * Display list demande update for admin.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDemande()
+    {
+        try {
+            $buffers = Buffer::where('type_of_demand',  "update")->get();
+
+            return response()->json(["body" => ["buffers" => $buffers]], 201);
+        } catch (\Throwable $th) {
+            return response()->json(["body" => ["response" => $th]], 401);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
