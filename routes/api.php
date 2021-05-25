@@ -33,9 +33,11 @@ Route::prefix('GET')->group(function () {
     //GET MÉTRIC
     Route::get('metric', 'ActorController@show')->name('actor.show');
 
-
     //DEMANDE DE SUPPRESSION
     Route::get('delete/demand', 'ActorController@sendDelete')->name('actor.sendDelete')->middleware('auth:api');
+
+    //GET LOGOUT
+    Route::get('bufferId/{id}', 'ActorController@bufferWithId');
 });
 
 //!ROUTES EN POST

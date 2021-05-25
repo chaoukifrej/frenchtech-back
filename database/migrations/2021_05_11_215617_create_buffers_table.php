@@ -34,7 +34,7 @@ class CreateBuffersTable extends Migration
             $table->longText('logo');
             $table->string('name', 64);
             $table->string('adress', 64);
-            $table->mediumInteger('postal_code');
+            $table->mediumInteger('postal_code')->unsigned();
             $table->string('city', 64);
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
@@ -49,9 +49,9 @@ class CreateBuffersTable extends Migration
             $table->string('website')->nullable();
             $table->string('activity_area', 64);
             $table->float('funds');
-            $table->smallInteger('employees_number');
-            $table->tinyInteger('jobs_available_number');
-            $table->smallInteger('women_number');
+            $table->smallInteger('employees_number')->unsigned();
+            $table->smallInteger('jobs_available_number')->unsigned();
+            $table->smallInteger('women_number')->unsigned();
             $table->float('revenues');
             $table->string('magic_link')->nullable();
         });
