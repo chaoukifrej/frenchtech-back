@@ -87,14 +87,14 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         try {
-            // $image_64 = $request->logo; //Base64
-            // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
-            // $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
-            // $image = str_replace($replace, '', $image_64);
-            // $image = str_replace(' ', '+', $image);
-            // $imageName = \Str::random(10) . '.' . $extension; //nom
-            // \Storage::disk('public')->put($imageName, base64_decode($image));
-            $imageName = $request->file('logo')->storeAs('logo', "logo.jpg , logo.png, logo.pdf", 'public');
+            $image_64 = $request->logo; //Base64
+            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+            $image = str_replace($replace, '', $image_64);
+            $image = str_replace(' ', '+', $image);
+            $imageName = \Str::random(10) . '.' . $extension; //nom
+            \Storage::disk('public')->put($imageName, base64_decode($image));
+            // $imageName = $request->file('logo')->storeAs('logo', "logo.jpg , logo.png, logo.pdf", 'public');
             $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complet
             Buffer::create([
                 'actor_id' => null,
