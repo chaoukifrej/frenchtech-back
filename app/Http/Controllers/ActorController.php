@@ -434,7 +434,6 @@ class ActorController extends Controller
     {
 
         try {
-<<<<<<< HEAD
             $buffer = Buffer::find($request->id);
             $actor = Actor::find($buffer->actor_id, 'id')->first();
 
@@ -528,8 +527,6 @@ class ActorController extends Controller
             } else {
                 $actor->revenues = $buffer->revenues;
             }
-=======
->>>>>>> f00f8168f096a394c76c03130932d86e256d0e1c
 
             $buffer = Buffer::find($request->id);
             $actor = Actor::where('id', '=', $buffer->actor_id)->first();
