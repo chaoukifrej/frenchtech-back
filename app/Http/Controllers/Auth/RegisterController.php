@@ -129,10 +129,10 @@ class RegisterController extends Controller
             ]);
 
             $data['user'] = $buffer;
-            // $admins = Admin::all();
-            // $data['admins'] = $admins;
+            //$admins = Admin::all();
+            //$dataA['admins'] = $admins;
             Mail::to($buffer->email)->send(new ActorRegisterMail($data));
-            // Mail::to($admins->email)->send(new ActorRegisterMailAdmin($data));
+            //Mail::to($admins->email)->send(new ActorRegisterMailAdmin($dataA));
 
 
 
