@@ -65,7 +65,7 @@ class ActorController extends Controller
                 'postal_code' => $buffer->postal_code,
                 'city' => $buffer->city,
                 'longitude' => $buffer->longitude,
-                'latitude' => $buffer,
+                'latitude' => $buffer->latitude,
                 'email' => $buffer->email,
                 'facebook' => $buffer->facebook,
                 'linkedin' => $buffer->linkedin,
@@ -85,18 +85,6 @@ class ActorController extends Controller
             if ($newActor) {
 
                 $newActor->save();
-
-                $email = $newActor->email;
-
-                Mail::to($email)->send(new ActorValidateMail($data));
-                //$actor = Actor::where("email", "=", $email)->first();
-                //$data['data'] = $actor;
-
-                // $data['admin'] = $admin;
-                // Mail::to($admin->email)->send(new AdminLoginMail($data));
-
-                // $admin = Admin::where('id', Auth::user()->id)->first();
-                //Mail::to($admin)->send(new ActorValidateMail($data));
 
                 $buffer = Buffer::destroy($request->id);
 
