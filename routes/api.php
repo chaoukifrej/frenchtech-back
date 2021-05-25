@@ -47,7 +47,7 @@ Route::prefix('POST')->group(function () {
     Route::post('register', 'Auth\RegisterController@store')->name('register.store');
 
     //DEMANDE DE MODIFICATION
-    Route::post('update/demand/{id}', 'ActorController@sendUpdate')->name('actor.sendUpdate');
+    Route::post('update/demand', 'ActorController@sendUpdate')->name('actor.sendUpdate')->middleware('auth:api');
 });
 
 //MODIFIER ACTOR CONNECTED

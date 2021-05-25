@@ -87,14 +87,15 @@ class RegisterController extends Controller
     protected function store(Request $request)
     {
         try {
-            $image_64 = $request->logo; //Base64
-            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
-            $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
-            $image = str_replace($replace, '', $image_64);
-            $image = str_replace(' ', '+', $image);
-            $imageName = \Str::random(10) . '.' . $extension; //nom
-            \Storage::disk('public')->put($imageName, base64_decode($image));
-            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
+            // $image_64 = $request->logo; //Base64
+            // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            // $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+            // $image = str_replace($replace, '', $image_64);
+            // $image = str_replace(' ', '+', $image);
+            // $imageName = \Str::random(10) . '.' . $extension; //nom
+            // \Storage::disk('public')->put($imageName, base64_decode($image));
+            $imageName = $request->file('logo')->storeAs('logo', "logo.jpg , logo.png, logo.pdf", 'public');
+            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complet
             Buffer::create([
                 'actor_id' => null,
                 'type_of_demand' => 'register',
@@ -121,9 +122,9 @@ class RegisterController extends Controller
                 'women_number' => $request['women_number'],
                 'revenues' => $request['revenues'],
             ]);
+            return response()->json(["body" => "Enregistrement effectué, en attente de validation par l'admin...", "test" => $imageName], 200);
         } catch (\Throwable $th) {
             return response()->json(["body" => $th], 401);
         }
-        return response()->json(["body" => "Enregistrement effectué, en attente de validation par l'admin...", "test" => $imageName], 200);
     }
 }

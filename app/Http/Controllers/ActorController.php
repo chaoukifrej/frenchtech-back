@@ -357,11 +357,21 @@ class ActorController extends Controller
     {
 
         try {
-            $actor = Actor::find($request->id);
+            $image_64 = $request->logo; //Base64
+            $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+            $image = str_replace($replace, '', $image_64);
+            $image = str_replace(' ', '+', $image);
+            $imageName = \Str::random(10) . '.' . $extension; //nom
+            \Storage::disk('public')->put($imageName, base64_decode($image));
+            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
+
+            $id = Auth::user()->id;
+
             $send = Buffer::create([
-                'actor_id' => $actor->id,
+                'actor_id' => $id,
                 'type_of_demand' => 'update',
-                'logo' => $request->logo,
+                'logo' => $LogoUrl,
                 'name' => $request->name,
                 'adress' => $request->adress,
                 'postal_code' => $request->postal_code,
@@ -380,9 +390,11 @@ class ActorController extends Controller
                 'jobs_available_number' => $request->jobs_available_number,
                 'employees_number' => $request->employees_number,
                 'women_number' => $request->women_number,
-                'revenues' => $request->revenues
-
+                'revenues' => $request->revenues,
+                'jobs_available_number' => $request->jobs_available_number
             ]);
+
+
 
             if ($send) {
                 return response()->json(["body" => ["Message" => "succès", $send]], 201);
@@ -418,25 +430,9 @@ class ActorController extends Controller
 
             $buffer = Buffer::find($request->id);
             $actor = Actor::where('id', '=', $buffer->actor_id)->first();
-            $test = collect([]);
-
-            if ($buffer->name != $actor->name) {
-                $test->push($buffer->name . " " . $actor->name);
-            }
-
-            if ($buffer->email != $actor->email) {
-                $test->push($buffer->email . " " . $actor->email);
-            }
 
 
-
-
-
-            // $actor->save();
-
-            // $buffer->delete();
-
-            return response()->json(["body" => $test], 201);
+            return response()->json(["body" => $buffer, $actor], 201);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }

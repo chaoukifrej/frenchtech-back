@@ -95,14 +95,11 @@ class AdminController extends Controller
         try {
             $admin = Admin::find($request->id);
 
-            Validator::make(
-                $request->all(),
-                [
-                    'firstname' => ['string'],
-                    'lastname' => ['string'],
-                    'email' => ['email']
-                ],
-            )->validate();
+            $request->validate([
+                'firstname' => ['string'],
+                'lastname' => ['string'],
+                'email' => ['email']
+            ]);
 
             if (!isset($request->firstname)) {
                 $admin->firstname =  $admin->firstname;
