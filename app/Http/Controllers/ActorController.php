@@ -275,7 +275,7 @@ class ActorController extends Controller
             }
 
             $actor->save();
-            return response()->json(["success" => ["true " => $actor]], 200);
+            return response()->json(["body" => $actor], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th], 401);
         }
