@@ -34,6 +34,16 @@ class ActorController extends Controller
         return response()->json(['body' => ['actors' => $actors]], 200);
     }
 
+    public function bufferWithId(Request $request)
+    {
+        try {
+            $buffer = Buffer::find($request->id);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['actor' => $buffer]], 200);
+    }
+
     public function getAllInfosActors()
     {
         try {
@@ -51,9 +61,8 @@ class ActorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $data)
+    public function store(Request $request)
     {
-
 
         try {
             $buffer = Buffer::find($request->id);
@@ -65,7 +74,7 @@ class ActorController extends Controller
                 'postal_code' => $buffer->postal_code,
                 'city' => $buffer->city,
                 'longitude' => $buffer->longitude,
-                'latitude' => $buffer,
+                'latitude' => $buffer->latitude,
                 'email' => $buffer->email,
                 'facebook' => $buffer->facebook,
                 'linkedin' => $buffer->linkedin,
@@ -73,6 +82,7 @@ class ActorController extends Controller
                 'website' => $buffer->website,
                 'phone' => $buffer->phone,
                 'category' => $buffer->category,
+                'associations' => $buffer->associations,
                 'description' => $buffer->description,
                 'activity_area' => $buffer->activity_area,
                 'funds' => $buffer->funds,
@@ -85,18 +95,6 @@ class ActorController extends Controller
             if ($newActor) {
 
                 $newActor->save();
-
-                $email = $newActor->email;
-
-                Mail::to($email)->send(new ActorValidateMail($data));
-                //$actor = Actor::where("email", "=", $email)->first();
-                //$data['data'] = $actor;
-
-                // $data['admin'] = $admin;
-                // Mail::to($admin->email)->send(new AdminLoginMail($data));
-
-                // $admin = Admin::where('id', Auth::user()->id)->first();
-                //Mail::to($admin)->send(new ActorValidateMail($data));
 
                 $buffer = Buffer::destroy($request->id);
 
@@ -164,36 +162,7 @@ class ActorController extends Controller
 
             $actor = Actor::find($request->id);
 
-            // Filtrage et validation de la modification
-            Validator::make(
-                $request->all(),
-                [
-                    'logo' => ['string'],
-                    'name' => ['string', 'max:64'],
-                    'adress' => ['string', 'max:64'],
-                    'postal_code' => ['integer', 'max:5'],
-                    'city' => ['string', 'max:64'],
 
-                    'email' => ['string', 'email', 'max:64', 'unique:actors'],
-                    'phone' => ['string', 'max:20'],
-                    'category' => ['string', 'max:64'],
-                    'associations' => ['nullable', 'string', 'max:64'],
-                    'description' => ['string'],
-
-                    'facebook' => ['nullable', 'string'],
-                    'twitter' => ['nullable', 'string'],
-                    'linkedin' => ['nullable', 'string'],
-                    'website' => ['nullable', 'string'],
-
-                    'activity_area' => ['string', 'max:64'],
-                    'funds' => ['numeric'],
-                    'employees_number' => ['integer'],
-                    'jobs_available_number' => ['integer'],
-                    'women_number' => ['integer'],
-                    'revenues' => ['numeric'],
-
-                ],
-            )->validate();
 
             if (!isset($request->name)) {
                 $actor->name = $actor->name;
@@ -287,7 +256,7 @@ class ActorController extends Controller
             }
 
             $actor->save();
-            return response()->json(["success" => ["true " => $actor]], 200);
+            return response()->json(["body" => $actor], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th], 401);
         }
@@ -313,13 +282,15 @@ class ActorController extends Controller
     /**
      * SEND DELETE DEMANDE
      */
-    public function sendDelete(Request $request)
+    public function sendDelete()
     {
 
         try {
-            $actor = Actor::find($request->id);
+            $id = Auth::user()->id;
+            $actor = Actor::find($id);
+
             $send = Buffer::create([
-                'actor_id' => $actor->id,
+                'actor_id' => $id,
                 'type_of_demand' => 'delete',
                 'name' => $actor->name,
                 'email' => $actor->email,
@@ -344,7 +315,7 @@ class ActorController extends Controller
                 'women_number' => $actor->women_number,
                 'revenues' => $actor->revenues,
             ]);
-            return response()->json(["body" => ["Message" => "succès"]], 201);
+            return response()->json(["body" => ["Message" => "succès", $send]], 201);
         } catch (\Throwable $th) {
             return response()->json(["Body" => ["Message" => $th]], 401);
         }
@@ -357,33 +328,51 @@ class ActorController extends Controller
     {
 
         try {
-            $actor = Actor::find($request->id);
+            $id = Auth::user()->id;
+            $actor = Actor::find($id);
+            if (!empty($request->logo)) {
+                $image_64 = $request->logo; //Base64
+                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+                $replace = substr($image_64, 0, strpos($image_64, ',') + 1);
+                $image = str_replace($replace, '', $image_64);
+                $image = str_replace(' ', '+', $image);
+                $imageName = \Str::random(10) . '.' . $extension; //nom
+                \Storage::disk('public')->put($imageName, base64_decode($image));
+                $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
+            } else {
+                $LogoUrl = $actor->logo;
+            }
+
+
+
+
             $send = Buffer::create([
-                'actor_id' => $actor->id,
+                'actor_id' => $id,
                 'type_of_demand' => 'update',
-                'name' => $actor->name,
-                'email' => $actor->email,
-                'logo' => $actor->logo,
-                'adress' => $actor->adress,
-                'postal_code' => $actor->postal_code,
-                'city' => $actor->city,
-                'longitude' => $actor->longitude,
-                'latitude' => $actor->latitude,
-                'phone' => $actor->phone,
-                'category' => $actor->category,
-                'associations' => $actor->associations,
-                'description' => $actor->description,
-                'facebook' => $actor->facebook,
-                'twitter' => $actor->twitter,
-                'linkedin' => $actor->linkedin,
-                'website' => $actor->website,
-                'activity_area' => $actor->activity_area,
-                'funds' => $actor->funds,
-                'employees_number' => $actor->employees_number,
-                'jobs_available_number' => $actor->jobs_available_number,
-                'women_number' => $actor->women_number,
-                'revenues' => $actor->revenues,
+                'logo' => $LogoUrl,
+                'name' => $request->name,
+                'adress' => $request->adress,
+                'postal_code' => $request->postal_code,
+                'city' => $request->city,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'category' => $request->category,
+                'associations' => $request->associations,
+                'description' => $request->description,
+                'facebook' => $request->facebook,
+                'linkedin' => $request->linkedin,
+                'twitter' => $request->twitter,
+                'website' => $request->website,
+                'activity_area' => $request->activity_area,
+                'funds' => $request->funds,
+                'jobs_available_number' => $request->jobs_available_number,
+                'employees_number' => $request->employees_number,
+                'women_number' => $request->women_number,
+                'revenues' => $request->revenues,
+                'jobs_available_number' => $request->jobs_available_number
             ]);
+
+
 
             if ($send) {
                 return response()->json(["body" => ["Message" => "succès", $send]], 201);
@@ -417,105 +406,47 @@ class ActorController extends Controller
 
         try {
             $buffer = Buffer::find($request->id);
-            $actor = Actor::find($buffer->actor_id, 'id')->first();
+            $actor = Actor::find($buffer->actor_id);
 
+            $actor->name = $buffer->name;
+            $actor->adress = $buffer->adress;
+            $actor->postal_code = $buffer->postal_code;
+            $actor->name = $buffer->name;
+            $actor->adress = $buffer->adress;
+            $actor->postal_code = $buffer->postal_code;
+            $actor->city = $buffer->city;
+            $actor->email = $buffer->email;
+            $actor->phone = $buffer->phone;
 
-            if (!isset($request->name)) {
-                $actor->name = $actor->name;
-            } else {
-                $actor->name = $buffer->name;
-            }
-            if (!isset($request->adress)) {
-                $actor->adress = $actor->adress;
-            } else {
-                $actor->adress = $buffer->adress;
-            }
-            if (!isset($request->postal_code)) {
-                $actor->postal_code = $actor->postal_code;
-            } else {
-                $actor->postal_code = $buffer->postal_code;
-            }
-            if (!isset($request->city)) {
-                $actor->city = $actor->city;
-            } else {
-                $actor->city = $buffer->city;
-            }
-            if (!isset($request->email)) {
-                $actor->email = $actor->email;
-            } else {
-                $actor->email = $buffer->email;
-            }
-            if (!isset($request->phone)) {
-                $actor->phone = $actor->phone;
-            } else {
-                $actor->phone = $buffer->phone;
-            }
-            if (!isset($request->category)) {
-                $actor->category = $actor->category;
-            } else {
-                $actor->category = $buffer->category;
-            }
-            if (!isset($request->associations)) {
-                $actor->associations = $actor->associations;
-            } else {
-                $actor->associations = $buffer->associations;
-            }
-            if (!isset($request->description)) {
-                $actor->description = $actor->description;
-            } else {
-                $actor->description = $buffer->description;
-            }
-            if (!isset($request->facebook)) {
-                $actor->facebook = $actor->facebook;
-            } else {
-                $actor->facebook = $buffer->facebook;
-            }
-            if (!isset($request->linkedin)) {
-                $actor->linkedin = $actor->linkedin;
-            } else {
-                $actor->linkedin = $buffer->linkedin;
-            }
-            if (!isset($request->twitter)) {
-                $actor->twitter = $actor->twitter;
-            } else {
-                $actor->twitter = $buffer->twitter;
-            }
-            if (!isset($request->website)) {
-                $actor->website = $actor->website;
-            } else {
-                $actor->website = $buffer->website;
-            }
-            if (!isset($request->activity_area)) {
-                $actor->activity_area = $actor->activity_area;
-            } else {
-                $actor->activity_area = $buffer->activity_area;
-            }
-            if (!isset($request->funds)) {
-                $actor->funds = $actor->funds;
-            } else {
-                $actor->funds = $buffer->funds;
-            }
-            if (!isset($request->employees_number)) {
-                $actor->employees_number = $actor->employees_number;
-            } else {
-                $actor->employees_number = $buffer->employees_number;
-            }
-            if (!isset($request->women_number)) {
-                $actor->women_number = $actor->women_number;
-            } else {
-                $actor->women_number = $buffer->women_number;
-            }
-            if (!isset($request->revenues)) {
-                $actor->revenues = $actor->revenues;
-            } else {
-                $actor->revenues = $buffer->revenues;
-            }
+            $actor->category = $buffer->category;
+
+            $actor->associations = $buffer->associations;
+
+            $actor->description = $buffer->description;
+
+            $actor->facebook = $buffer->facebook;
+
+            $actor->linkedin = $buffer->linkedin;
+
+            $actor->twitter = $buffer->twitter;
+
+            $actor->website = $buffer->website;
+
+            $actor->activity_area = $buffer->activity_area;
+
+            $actor->funds = $buffer->funds;
+
+            $actor->employees_number = $buffer->employees_number;
+
+            $actor->women_number = $buffer->women_number;
+
+            $actor->revenues = $buffer->revenues;
 
             $actor->save();
 
             $buffer->delete();
 
-            return response()->json(["reponse" => $actor]);
+            return response()->json(["body" => $buffer, $actor], 201);
         } catch (\Throwable $th) {
             return response()->json(["body" => ["error" => $th]], 401);
         }

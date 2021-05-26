@@ -31,7 +31,7 @@ class ActorValidateMail extends Mailable
     {
         return $this->from(config('mail.from.address'))
             ->subject('Actor Validate Send')
-            ->markdown('auth.mailto')
+            ->markdown('auth.mailRegister')
             ->with($this->data);
     }
 }

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Admin;
 use App\Buffer;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ActorRegisterMail;
+use App\Mail\ActorRegisterMailAdmin;
 
 class RegisterController extends Controller
 {
@@ -94,8 +99,9 @@ class RegisterController extends Controller
             $image = str_replace(' ', '+', $image);
             $imageName = \Str::random(10) . '.' . $extension; //nom
             \Storage::disk('public')->put($imageName, base64_decode($image));
-            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complete
-            Buffer::create([
+            // $imageName = $request->file('logo')->storeAs('logo', "logo.jpg , logo.png, logo.pdf", 'public');
+            $LogoUrl = ENV('APP_URL') . '/storage/' . $imageName; //url complet
+            $buffer = Buffer::create([
                 'actor_id' => null,
                 'type_of_demand' => 'register',
                 'name' => $request['name'],
@@ -121,9 +127,18 @@ class RegisterController extends Controller
                 'women_number' => $request['women_number'],
                 'revenues' => $request['revenues'],
             ]);
+
+            $data['user'] = $buffer;
+            //$admins = Admin::all();
+            //$dataA['admins'] = $admins;
+            Mail::to($buffer->email)->send(new ActorRegisterMail($data));
+            //Mail::to($admins->email)->send(new ActorRegisterMailAdmin($dataA));
+
+
+
+            return response()->json(["body" => "Enregistrement effectué, en attente de validation par l'admin...", "test" => $imageName], 200);
         } catch (\Throwable $th) {
             return response()->json(["body" => $th], 401);
         }
-        return response()->json(["body" => "Enregistrement effectué, en attente de validation par l'admin...", "test" => $imageName], 200);
     }
 }

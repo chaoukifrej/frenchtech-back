@@ -67,9 +67,13 @@
 
 
             <strong>Bonjour,</strong><br>
+                <p style="text-align: center">Votre demande d'enregistrement a bien était pris en compte. <br>
+                Veuillez attendre la confirmation d'un Administrateur.</p>
+
+<br><br>
+Cdt, French Tech
 
 
-            <br><br><br>
     </div>
     </div>
 

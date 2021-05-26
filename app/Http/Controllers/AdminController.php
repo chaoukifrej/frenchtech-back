@@ -6,6 +6,9 @@ use App\Admin;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Buffer;
+use App\Mail\ActorRegisterMail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ActorValidateMail;
 
 class AdminController extends Controller
 {
@@ -16,7 +19,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $admins = Admin::all();
+        } catch (\Throwable $th) {
+            return response()->json(["message" => $th], 401);
+        }
+        return response()->json(['body' => ['admins' => $admins]], 200);
     }
 
     /**
@@ -48,6 +56,15 @@ class AdminController extends Controller
                 'lastname' => $request['lastname'],
                 'email' => $request['email']
             ]);
+
+            // $data['test'] = $newAdmin;
+            // Mail::to($newAdmin->email)->send(new ActorRegisterMail($data));
+
+            // $test = Admin::all();
+            // foreach ($test as $test->email) {
+            //     Mail::to($test->email)->send(new ActorRegisterMail($data));
+            // }
+
 
             return response()->json(["success" => ["true", $newAdmin]], 200);
         } catch (\Throwable $th) {
@@ -86,7 +103,40 @@ class AdminController extends Controller
      */
     public function update(Request $request)
     {
-        //
+
+        try {
+            $admin = Admin::find($request->id);
+
+            $request->validate([
+                'firstname' => ['string'],
+                'lastname' => ['string'],
+                'email' => ['email']
+            ]);
+
+            if (!isset($request->firstname)) {
+                $admin->firstname =  $admin->firstname;
+            } else {
+                $admin->firstname = $request->firstname;
+            }
+
+            if (!isset($request->lastname)) {
+                $admin->lastname =  $admin->lastname;
+            } else {
+                $admin->lastname = $request->lastname;
+            }
+
+            if (!isset($request->email)) {
+                $admin->email =  $admin->email;
+            } else {
+                $admin->email = $request->email;
+            }
+
+            $admin->save();
+
+            return response()->json(["success" => ["true " => $admin]], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th], 401);
+        }
     }
 
     /**
@@ -101,10 +151,10 @@ class AdminController extends Controller
             $a = Admin::find($request->id);
 
             if ($a) {
-                if ($a->id == 6) {
+                if ($a->id == 1) {
                     return response()->json(["body" => "L'administrateur principale ne peut etre supprime"], 200);
                 }
-                if ($a->id != 6) {
+                if ($a->id != 1) {
 
                     $a->delete();
                     return response()->json(["body" => "L'administateur est delete"], 200);
