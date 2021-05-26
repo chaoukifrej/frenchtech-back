@@ -6,6 +6,9 @@ use App\Admin;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Buffer;
+use App\Mail\ActorRegisterMail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ActorValidateMail;
 
 class AdminController extends Controller
 {
@@ -53,6 +56,15 @@ class AdminController extends Controller
                 'lastname' => $request['lastname'],
                 'email' => $request['email']
             ]);
+
+            // $data['test'] = $newAdmin;
+            // Mail::to($newAdmin->email)->send(new ActorRegisterMail($data));
+
+            // $test = Admin::all();
+            // foreach ($test as $test->email) {
+            //     Mail::to($test->email)->send(new ActorRegisterMail($data));
+            // }
+
 
             return response()->json(["success" => ["true", $newAdmin]], 200);
         } catch (\Throwable $th) {

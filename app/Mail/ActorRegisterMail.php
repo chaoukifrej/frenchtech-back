@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ActorValidateMail extends Mailable
+class ActorRegisterMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,7 +30,7 @@ class ActorValidateMail extends Mailable
     public function build()
     {
         return $this->from(config('mail.from.address'))
-            ->subject('Actor Validate Send')
+            ->subject('Actor Register Send')
             ->markdown('auth.mailRegister')
             ->with($this->data);
     }
