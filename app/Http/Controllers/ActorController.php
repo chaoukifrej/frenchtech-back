@@ -162,31 +162,7 @@ class ActorController extends Controller
 
             $actor = Actor::find($request->id);
 
-            $request->validate([
-                'logo' => ['string'],
-                'name' => ['string', 'max:64'],
-                'adress' => ['string', 'max:64'],
-                'postal_code' => ['integer', 'max:5'],
-                'city' => ['string', 'max:64'],
 
-                'email' => ['string', 'email', 'max:64', 'unique:actors'],
-                'phone' => ['string', 'max:20'],
-                'category' => ['string', 'max:64'],
-                'associations' => ['nullable', 'string', 'max:64'],
-                'description' => ['string'],
-
-                'facebook' => ['nullable', 'string'],
-                'twitter' => ['nullable', 'string'],
-                'linkedin' => ['nullable', 'string'],
-                'website' => ['nullable', 'string'],
-
-                'activity_area' => ['string', 'max:64'],
-                'funds' => ['numeric'],
-                'employees_number' => ['integer'],
-                'jobs_available_number' => ['integer'],
-                'women_number' => ['integer'],
-                'revenues' => ['numeric'],
-            ]);
 
             if (!isset($request->name)) {
                 $actor->name = $actor->name;
