@@ -435,102 +435,45 @@ class ActorController extends Controller
 
         try {
             $buffer = Buffer::find($request->id);
-            $actor = Actor::find($buffer->actor_id, 'id')->first();
+            $actor = Actor::find($buffer->actor_id);
 
-            if (!isset($request->name)) {
-                $actor->name = $actor->name;
-            } else {
-                $actor->name = $buffer->name;
-            }
-            if (!isset($request->adress)) {
-                $actor->adress = $actor->adress;
-            } else {
-                $actor->adress = $buffer->adress;
-            }
-            if (!isset($request->postal_code)) {
-                $actor->postal_code = $actor->postal_code;
-            } else {
-                $actor->postal_code = $buffer->postal_code;
-            }
-            if (!isset($request->city)) {
-                $actor->city = $actor->city;
-            } else {
-                $actor->city = $buffer->city;
-            }
-            if (!isset($request->email)) {
-                $actor->email = $actor->email;
-            } else {
-                $actor->email = $buffer->email;
-            }
-            if (!isset($request->phone)) {
-                $actor->phone = $actor->phone;
-            } else {
-                $actor->phone = $buffer->phone;
-            }
-            if (!isset($request->category)) {
-                $actor->category = $actor->category;
-            } else {
-                $actor->category = $buffer->category;
-            }
-            if (!isset($request->associations)) {
-                $actor->associations = $actor->associations;
-            } else {
-                $actor->associations = $buffer->associations;
-            }
-            if (!isset($request->description)) {
-                $actor->description = $actor->description;
-            } else {
-                $actor->description = $buffer->description;
-            }
-            if (!isset($request->facebook)) {
-                $actor->facebook = $actor->facebook;
-            } else {
-                $actor->facebook = $buffer->facebook;
-            }
-            if (!isset($request->linkedin)) {
-                $actor->linkedin = $actor->linkedin;
-            } else {
-                $actor->linkedin = $buffer->linkedin;
-            }
-            if (!isset($request->twitter)) {
-                $actor->twitter = $actor->twitter;
-            } else {
-                $actor->twitter = $buffer->twitter;
-            }
-            if (!isset($request->website)) {
-                $actor->website = $actor->website;
-            } else {
-                $actor->website = $buffer->website;
-            }
-            if (!isset($request->activity_area)) {
-                $actor->activity_area = $actor->activity_area;
-            } else {
-                $actor->activity_area = $buffer->activity_area;
-            }
-            if (!isset($request->funds)) {
-                $actor->funds = $actor->funds;
-            } else {
-                $actor->funds = $buffer->funds;
-            }
-            if (!isset($request->employees_number)) {
-                $actor->employees_number = $actor->employees_number;
-            } else {
-                $actor->employees_number = $buffer->employees_number;
-            }
-            if (!isset($request->women_number)) {
-                $actor->women_number = $actor->women_number;
-            } else {
-                $actor->women_number = $buffer->women_number;
-            }
-            if (!isset($request->revenues)) {
-                $actor->revenues = $actor->revenues;
-            } else {
-                $actor->revenues = $buffer->revenues;
-            }
+            $actor->name = $buffer->name;
+            $actor->adress = $buffer->adress;
+            $actor->postal_code = $buffer->postal_code;
+            $actor->name = $buffer->name;
+            $actor->adress = $buffer->adress;
+            $actor->postal_code = $buffer->postal_code;
+            $actor->city = $buffer->city;
+            $actor->email = $buffer->email;
+            $actor->phone = $buffer->phone;
 
-            $buffer = Buffer::find($request->id);
-            $actor = Actor::where('id', '=', $buffer->actor_id)->first();
+            $actor->category = $buffer->category;
 
+            $actor->associations = $buffer->associations;
+
+            $actor->description = $buffer->description;
+
+            $actor->facebook = $buffer->facebook;
+
+            $actor->linkedin = $buffer->linkedin;
+
+            $actor->twitter = $buffer->twitter;
+
+            $actor->website = $buffer->website;
+
+            $actor->activity_area = $buffer->activity_area;
+
+            $actor->funds = $buffer->funds;
+
+            $actor->employees_number = $buffer->employees_number;
+
+            $actor->women_number = $buffer->women_number;
+
+            $actor->revenues = $buffer->revenues;
+
+            $actor->save();
+
+            $buffer->delete();
 
             return response()->json(["body" => $buffer, $actor], 201);
         } catch (\Throwable $th) {
