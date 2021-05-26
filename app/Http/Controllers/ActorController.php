@@ -61,9 +61,8 @@ class ActorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $data)
+    public function store(Request $request)
     {
-
 
         try {
             $buffer = Buffer::find($request->id);
@@ -83,6 +82,7 @@ class ActorController extends Controller
                 'website' => $buffer->website,
                 'phone' => $buffer->phone,
                 'category' => $buffer->category,
+                'associations' => $buffer->associations,
                 'description' => $buffer->description,
                 'activity_area' => $buffer->activity_area,
                 'funds' => $buffer->funds,
