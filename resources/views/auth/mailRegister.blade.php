@@ -66,7 +66,7 @@
             </div>
 
 
-            <strong>Bonjour, {{ $user->name }}</strong><br>
+            <strong>Bonjour,</strong><br>
                 <p style="text-align: center">Votre demande d'enregistrement a bien était pris en compte. <br>
                 Veuillez attendre la confirmation d'un Administrateur.</p>
 
